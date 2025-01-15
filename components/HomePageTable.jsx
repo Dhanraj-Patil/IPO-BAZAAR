@@ -188,8 +188,8 @@ const renderTable = (data) => (
 
 export function CombinedTable() {
   return (
-    <Tabs defaultValue="IPO" className="w-full ">
-      <TabsList className="grid w-[50%] mx-auto grid-cols-2">
+    <Tabs defaultValue="IPO" className="w-full  hover:scale-105 transition-all ease-in-out duration-700">
+      <TabsList className="grid w-[50%] mx-auto shadow-2xl grid-cols-2">
         <TabsTrigger value="IPO">IPO</TabsTrigger>
         <TabsTrigger value="SME-IPO">SME IPO</TabsTrigger>
       </TabsList>
