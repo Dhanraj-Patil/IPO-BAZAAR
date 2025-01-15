@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Table,
   TableBody,
@@ -10,8 +11,8 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Data for MainBoardcompanies
-const MainBoardcompanies = [
+// Data for IPO companies
+const IPO = [
   {
     companyName: "Stallion India Fluorochemicals Limited",
     openDate: "2025-01-16",
@@ -62,7 +63,7 @@ const MainBoardcompanies = [
   },
 ];
 
-// Data for SME
+// Data for SME companies
 const SME = [
   {
     companyName: "CapitalNumbers Infotech Limited",
@@ -112,8 +113,6 @@ const SME = [
     closeDate: "2025-01-09",
     status: "Closed",
   },
-
-
 ];
 
 // Helper function to format the date
@@ -158,9 +157,10 @@ const StatusCell = ({ openDate, closeDate }) => {
   );
 };
 
-const renderTable = (data) => (
+// Helper function to render tables with dynamic links
+const renderTable = (data, type) => (
   <Table>
-    <TableCaption>{data === MainBoardcompanies ? "Main Board Companies" : "SME IPO Companies"}</TableCaption>
+    <TableCaption>{data === IPO ? "IPO Companies" : "SME IPO Companies"}</TableCaption>
     <TableHeader>
       <TableRow>
         <TableHead className="w-[200px]">Company Name</TableHead>
@@ -172,9 +172,14 @@ const renderTable = (data) => (
     <TableBody className="text-white">
       {data.map((company) => {
         const { companyName, openDate, closeDate } = company;
+        const companyLink = type === "ipo" ? `/IPO/${companyName}` : `/SME/${companyName}`;
         return (
-          <TableRow key={companyName}>
-            <TableCell className="font-medium">{companyName}</TableCell>
+          <TableRow key={companyName} className="cursor-pointer hover:bg-gray-700">
+            <TableCell>
+              <Link href={companyLink} >
+                {companyName}
+              </Link>
+            </TableCell>
             <TableCell>{formatDate(openDate)}</TableCell>
             <TableCell>{formatDate(closeDate)}</TableCell>
             <StatusCell openDate={openDate} closeDate={closeDate} />
@@ -188,20 +193,20 @@ const renderTable = (data) => (
 
 export function CombinedTable() {
   return (
-    <Tabs defaultValue="IPO" className="w-full  hover:scale-105 transition-all ease-in-out duration-700">
+    <Tabs defaultValue="IPO" className="w-full hover:scale-105 transition-all ease-in-out duration-700">
       <TabsList className="grid w-[50%] mx-auto shadow-2xl grid-cols-2">
         <TabsTrigger value="IPO">IPO</TabsTrigger>
         <TabsTrigger value="SME-IPO">SME IPO</TabsTrigger>
       </TabsList>
 
-      {/* MainBoardcompanies table */}
+      {/* IPO table */}
       <TabsContent value="IPO">
-        {renderTable(MainBoardcompanies)}
+        {renderTable(IPO, "ipo")}
       </TabsContent>
 
       {/* SME table */}
       <TabsContent value="SME-IPO">
-        {renderTable(SME)}
+        {renderTable(SME, "sme")}
       </TabsContent>
     </Tabs>
   );

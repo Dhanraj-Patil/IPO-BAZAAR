@@ -81,8 +81,8 @@
      background: linear-gradient(133deg, rgba(34,68,64,1) 60%, #14f539 100%);
  }
  .bg-light{
-   background: rgb(232,255,253);
-   background: linear-gradient(133deg, rgba(232,255,253,1) 50%, rgba(1,175,35,1) 100%);
+  background: rgb(221,255,241);
+  background: linear-gradient(133deg, rgba(221,255,241,1) 28%, rgb(12, 231, 56) 100%);
  }
 }
 
