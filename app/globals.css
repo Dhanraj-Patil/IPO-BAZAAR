@@ -8,16 +8,16 @@
   box-sizing: border-box;
 }
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 0.6rem;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #00573F;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #49796B;
 }
 
 @layer base {
