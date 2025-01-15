@@ -1,88 +1,97 @@
 import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@/components/ui/table"
-  
-  const invoices = [
-    {
-      invoice: "INV001",
-      paymentStatus: "Paid",
-      totalAmount: "$250.00",
-      paymentMethod: "Credit Card",
-    },
-    {
-      invoice: "INV002",
-      paymentStatus: "Pending",
-      totalAmount: "$150.00",
-      paymentMethod: "PayPal",
-    },
-    {
-      invoice: "INV003",
-      paymentStatus: "Unpaid",
-      totalAmount: "$350.00",
-      paymentMethod: "Bank Transfer",
-    },
-    {
-      invoice: "INV004",
-      paymentStatus: "Paid",
-      totalAmount: "$450.00",
-      paymentMethod: "Credit Card",
-    },
-    {
-      invoice: "INV005",
-      paymentStatus: "Paid",
-      totalAmount: "$550.00",
-      paymentMethod: "PayPal",
-    },
-    {
-      invoice: "INV006",
-      paymentStatus: "Pending",
-      totalAmount: "$200.00",
-      paymentMethod: "Bank Transfer",
-    },
-    {
-      invoice: "INV007",
-      paymentStatus: "Unpaid",
-      totalAmount: "$300.00",
-      paymentMethod: "Credit Card",
-    },
-  ]
-  
-  export function TableDemo() {
-    return (
-      <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+const companies = [
+  {
+    companyName: "Stallion India Fluorochemicals Limited",
+    openDate: "2025-01-16",
+    closeDate: "2025-01-20",
+    status: "Upcoming",
+  },
+  {
+    companyName: "Laxmi Dental Limited",
+    openDate: "2025-01-13",
+    closeDate: "2025-01-15",
+    status: "Current",
+  },
+  {
+    companyName: "Capital Infra Trust",
+    openDate: "2025-01-07",
+    closeDate: "2025-01-09",
+    status: "Closed",
+  },
+  {
+    companyName: "Quadrant Future Tek Limited",
+    openDate: "2025-01-07",
+    closeDate: "2025-01-09",
+    status: "Closed",
+  },
+  {
+    companyName: "Standard Glass Lining Technology Limited",
+    openDate: "2025-01-06",
+    closeDate: "2025-01-08",
+    status: "Closed",
+  },
+  {
+    companyName: "Indo Farm Equipment Limited",
+    openDate: "2024-12-31",
+    closeDate: "2025-01-02",
+    status: "Closed",
+  },
+  {
+    companyName: "Unimech Aerospace and Manufacturing",
+    openDate: "2024-12-23",
+    closeDate: "2024-12-26",
+    status: "Closed",
+  },
+  {
+    companyName: "Carraro India Limited",
+    openDate: "2024-12-20",
+    closeDate: "2024-12-24",
+    status: "Closed",
+  },
+];
+
+// Helper function to format the date
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr);
+  const day = date.getDate();
+  const month = date.toLocaleString('default', { month: 'short' });
+  const suffix = ['th', 'st', 'nd', 'rd'][(day % 10) > 3 ? 0 : (day % 100 - day % 10 != 10) * (day % 10)];
+  return `${day}${suffix} ${month}`;
+};
+
+export function TableDemo() {
+  return (
+    <Table >
+      <TableCaption>DashBoard</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[200px]">Company Name</TableHead>
+          <TableHead>Open Date</TableHead>
+          <TableHead>Close Date</TableHead>
+          <TableHead className="text-right w-[10px]">Status</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody className="text-white">
+        {companies.map((cN) => (
+          <TableRow key={cN.companyName}>
+            <TableCell className="font-medium">{cN.companyName}</TableCell>
+            <TableCell>{formatDate(cN.openDate)}</TableCell>
+            <TableCell>{formatDate(cN.closeDate)}</TableCell>
+            <TableCell className="text-right">{cN.status}</TableCell>
           </TableRow>
-        </TableHeader>
-        <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-              <TableCell className="font-medium">{invoice.invoice}</TableCell>
-              <TableCell>{invoice.paymentStatus}</TableCell>
-              <TableCell>{invoice.paymentMethod}</TableCell>
-              <TableCell className="text-right">{invoice.totalAmount}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
-    )
-  }
-  
+        ))}
+      </TableBody>
+      <TableFooter></TableFooter>
+    </Table>
+  );
+}
