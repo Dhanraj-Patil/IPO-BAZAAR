@@ -1,4 +1,4 @@
-import { TableDemo } from "@/components/HomePageTable";
+import { CombinedTable } from "@/components/HomePageTable";
 import Image from "next/image";
 
 export default function Home() {
@@ -6,10 +6,10 @@ export default function Home() {
     <div className="h-[100vh] w-[80%] mx-auto justify-between items-center">
       <div className="flex justify-between items-center">
         <div className="pl-[1rem] w-[45%]">
-          <TableDemo />
+          <CombinedTable />
         </div>
 
-        <div className="translate-x-[2rem] pt-2">
+        <div className="translate-x-[2rem] ">
           <Image
             src="/Assets/BB.png"
             width={700}
