@@ -1,0 +1,40 @@
+import mongoose from 'mongoose';
+
+const IpoSchema = new mongoose.Schema({
+  symbol: { type: String, required: true },
+  issuePeriod: { type: String, required: true },
+  cutOffTimeForUPIMandateConfirmation: { type: String, required: true },
+  issueSize: { type: String, required: true },
+  issueType: { type: String, required: true },
+  priceRange: { type: String, required: true },
+  faceValue: { type: Number, required: true },
+  tickSize: { type: String, required: true },
+  bidLot: { type: Number, required: true },
+  minimumOrderQuantity: { type: Number, required: true },
+  maximumSubscriptionAmountForRetailInvestor: { type: String, required: true },
+  maximumBidQuantityForQIBInvestors: { type: String, required: true },
+  maximumBidQuantityForNIBInvestors: { type: String, required: true },
+  ipoMarketTimings: { type: String, required: true },
+  bookRunningLeadManagers: { type: String, required: true },
+  sponsorBank: { type: String, required: true },
+  categories: { type: String, required: true },
+  subCategoriesApplicableForUPI: { type: String, required: true },
+  nameOfRegistrar: { type: String, required: true },
+  addressOfRegistrar: { type: String, required: true },
+  contactPersonNameNumberAndEmailId: { type: String, required: true },
+  eFormLink: { type: String, required: true },
+  branchesOfSCSBs: { type: String, required: true },
+  redHerringProspectus: { type: String, required: true },
+  ratiosBasisOfIssuePrice: { type: String, required: true },
+  sampleApplicationForms: { type: String, required: true },
+  securityParameters: { type: String, required: true },
+  securityParametersPostAnchor: { type: String, required: true },
+  anchorAllocationReport: { type: String, required: true },
+  processingOfASBAApplications: { type: String, required: true },
+  remark: { type: String, required: true },
+  listOfMobileApplicationsAcceptingUPI: { type: String, required: true },
+  videoLinkForUPIBasedASBAProcess: { type: String, required: true },
+  videoLinkForBHIMUPIRegistration: { type: String, required: true }
+});
+
+export default mongoose.models.Ipo || mongoose.model('Ipo', IpoSchema);
