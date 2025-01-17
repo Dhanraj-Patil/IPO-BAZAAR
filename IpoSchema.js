@@ -1,16 +1,18 @@
 import mongoose from 'mongoose';
 
 const IpoSchema = new mongoose.Schema({
+  IPOName: { type: String, required: true }, // Added IPOName
+  IPOType: { type: String, enum: ["IPO", "SME-IPO"], required: true },
   symbol: { type: String, required: true },
   issuePeriod: { type: String, required: true },
   cutOffTimeForUPIMandateConfirmation: { type: String, required: true },
   issueSize: { type: String, required: true },
   issueType: { type: String, required: true },
   priceRange: { type: String, required: true },
-  faceValue: { type: Number, required: true },
+  faceValue: { type: String, required: true },
   tickSize: { type: String, required: true },
-  bidLot: { type: Number, required: true },
-  minimumOrderQuantity: { type: Number, required: true },
+  bidLot: { type: String, required: true },
+  minimumOrderQuantity: { type: String, required: true },
   maximumSubscriptionAmountForRetailInvestor: { type: String, required: true },
   maximumBidQuantityForQIBInvestors: { type: String, required: true },
   maximumBidQuantityForNIBInvestors: { type: String, required: true },
