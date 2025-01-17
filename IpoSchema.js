@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const IpoSchema = new mongoose.Schema({
-  IPOName: { type: String, required: true }, // Added IPOName
+  IPOName: { type: String, required: true },
   IPOType: { type: String, enum: ["IPO", "SME-IPO"], required: true },
   symbol: { type: String, required: true },
   issuePeriod: { type: String, required: true },
@@ -36,7 +36,8 @@ const IpoSchema = new mongoose.Schema({
   remark: { type: String, required: true },
   listOfMobileApplicationsAcceptingUPI: { type: String, required: true },
   videoLinkForUPIBasedASBAProcess: { type: String, required: true },
-  videoLinkForBHIMUPIRegistration: { type: String, required: true }
-});
+  videoLinkForBHIMUPIRegistration: { type: String, required: true },
+  listingGain: { type: Number, default: null } // Optional field, default to null
+}); 
 
 export default mongoose.models.Ipo || mongoose.model('Ipo', IpoSchema);

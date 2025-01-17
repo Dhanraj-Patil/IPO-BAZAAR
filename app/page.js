@@ -5,14 +5,14 @@ export default function Home() {
   return (
     <div className="h-[100vh] w-[80%] mx-auto justify-between items-center">
       <div className="flex justify-between items-center">
-        <div className="pl-[1rem] w-[45%]">
+        <div className="pl-[1rem] w-[44%]">
           <CombinedTable />
         </div>
 
-        <div className="translate-x-[2rem] ">
+        <div className="translate-x-[2rem] w-[50%]">
           <Image
             src="/Assets/BB.png"
-            width={700}
+            width={2700}
             height={10}
             alt="Background"
             priority
