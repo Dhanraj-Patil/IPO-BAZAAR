@@ -1,4 +1,5 @@
-import { CombinedTable } from "@/components/HomePageTable";
+
+import IPODataFetcher from "@/components/IPODataFetcher";
 import Image from "next/image";
 
 export default function Home() {
@@ -6,7 +7,7 @@ export default function Home() {
     <div className="h-[100vh] w-[80%] mx-auto justify-between items-center">
       <div className="flex justify-between items-center">
         <div className="pl-[1rem] w-[44%]">
-          <CombinedTable />
+          <IPODataFetcher/>
         </div>
 
         <div className="translate-x-[2rem] w-[50%]">
@@ -22,3 +23,4 @@ export default function Home() {
     </div>
   );
 }
+

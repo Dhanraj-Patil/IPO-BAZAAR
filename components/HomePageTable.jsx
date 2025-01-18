@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import {
   Table,
@@ -95,44 +95,7 @@ const renderTable = (data, type) => (
   </Table>
 );
 
-export function CombinedTable() {
-  const [ipoData, setIpoData] = useState([]);
-  const [smeData, setSmeData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/homePageTable');
-        const data = await response.json();
-
-        // Convert date string to comparable number for sorting
-        const dateToNumber = (dateStr) => {
-          const [day, month, year] = dateStr.split('-');
-          const monthMap = {
-            'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
-            'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
-            'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
-          };
-          return parseInt(`${year}${monthMap[month]}${day.padStart(2, '0')}`);
-        };
-
-        // Sort by closing date (latest first)
-        const sortedData = [...data].sort((a, b) => {
-          const [, closeDateA] = a.issuePeriod.split(' to ');
-          const [, closeDateB] = b.issuePeriod.split(' to ');
-          return dateToNumber(closeDateB) - dateToNumber(closeDateA);
-        });
-
-        setIpoData(sortedData.filter(item => item.IPOType === 'IPO'));
-        setSmeData(sortedData.filter(item => item.IPOType === 'SME-IPO'));
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+export function CombinedTable({ ipoData, smeData }) {
   return (
     <Tabs defaultValue="IPO" className="w-full hover:scale-105 transition-all ease-in-out duration-700">
       <TabsList className="grid w-[50%] mx-auto shadow-2xl grid-cols-2">
@@ -148,3 +111,4 @@ export function CombinedTable() {
     </Tabs>
   );
 }
+
