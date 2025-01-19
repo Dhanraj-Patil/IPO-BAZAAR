@@ -37,7 +37,8 @@ const IpoSchema = new mongoose.Schema({
   listOfMobileApplicationsAcceptingUPI: { type: String, required: true },
   videoLinkForUPIBasedASBAProcess: { type: String, required: true },
   videoLinkForBHIMUPIRegistration: { type: String, required: true },
-  listingGain: { type: Number, default: null } // Optional field, default to null
-}); 
+  listingGain: { type: Number, default: null }, // Optional field, default to null
+  createdAt: { type: Date, default: Date.now } // New field added
+});
 
 export default mongoose.models.Ipo || mongoose.model('Ipo', IpoSchema);

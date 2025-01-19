@@ -1,25 +1,23 @@
 
+import HomePageStats from "@/components/HomePageStats";
 import IPODataFetcher from "@/components/IPODataFetcher";
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="h-[100vh] w-[80%] mx-auto justify-between items-center">
+    <div className="h-[100vh] w-[80%] mx-auto flex-col justify-between items-center">
+      {/* hero section */}
       <div className="flex justify-between items-center">
         <div className="pl-[1rem] w-[42%]">
           <IPODataFetcher/>
         </div>
 
         <div className="translate-x-[2rem] w-[50%]">
-          <Image
-            src="/Assets/BB.png"
-            width={2700}
-            height={10}
-            alt="Background"
-            priority
-          />
+          <Image src="/Assets/BB.png"width={2700} height={10} alt="Background"priority/>
         </div>
       </div>
+      {/* count section */}
+     <HomePageStats/>
     </div>
   );
 }

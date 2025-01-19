@@ -86,6 +86,9 @@
  }
 }
 
+.darkModeNavyBg{
+  background-color: #111822;
+}
 
 
 @layer base {
