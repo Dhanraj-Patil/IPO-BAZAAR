@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="h-[100vh] w-[80%] mx-auto justify-between items-center">
       <div className="flex justify-between items-center">
-        <div className="pl-[1rem] w-[44%]">
+        <div className="pl-[1rem] w-[42%]">
           <IPODataFetcher/>
         </div>
 

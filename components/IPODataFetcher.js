@@ -16,7 +16,7 @@ export default async function IPODataFetcher() {
     const [day, month, year] = dateStr.split('-');
     const monthMap = {
       'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
-      'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
+      'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08', 
       'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
     };
     return parseInt(`${year}${monthMap[month]}${day.padStart(2, '0')}`);
@@ -29,9 +29,17 @@ export default async function IPODataFetcher() {
     return dateToNumber(closeDateB) - dateToNumber(closeDateA);
   });
 
-  const ipoData = sortedData.filter(item => item.IPOType === 'IPO');
-  const smeData = sortedData.filter(item => item.IPOType === 'SME-IPO');
+  // Filter IPOs and SME-IPOs, then limit them to 7 each
+  const ipoData = sortedData
+    .filter(item => item.IPOType === 'IPO')
+    .map(({ IPOName, IPOType, issuePeriod, symbol }) => ({ IPOName, IPOType, issuePeriod, symbol }))
+    .slice(0, 7);
+  
+  const smeData = sortedData
+    .filter(item => item.IPOType === 'SME-IPO')
+    .map(({ IPOName, IPOType, issuePeriod, symbol }) => ({ IPOName, IPOType, issuePeriod, symbol }))
+    .slice(0, 7);
 
+  // Pass the sliced data to the CombinedTable
   return <CombinedTable ipoData={ipoData} smeData={smeData} />;
 }
-

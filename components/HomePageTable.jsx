@@ -73,17 +73,17 @@ const renderTable = (data, type) => (
     </TableHeader>
     <TableBody className="text-white">
       {data.map((company) => {
-        const { IPOName, IPOType, issuePeriod } = company;
+        const { symbol, IPOType, issuePeriod, IPOName } = company;
         const [openDate, closeDate] = issuePeriod.split(' to ');
-        const companyLink = type === "IPO" ? `/IPO/${IPOName}` : `/SME/${IPOName}`;
-        
+        const companyLink = type === "IPO" ? `/IPO/${symbol}` : `/SME/${symbol}`;
+
         return (
-          <TableRow key={IPOName} className="cursor-pointer hover:bg-gray-700">
-            <TableCell>
-              <Link href={companyLink}>
-                {IPOName}
-              </Link>
-            </TableCell>
+          <TableRow
+            key={symbol}
+            className="cursor-pointer hover:bg-gray-700"
+            onClick={() => window.open(companyLink, '_blank', 'noopener noreferrer')}
+          >
+            <TableCell>{IPOName}</TableCell>
             <TableCell>{formatDate(openDate)}</TableCell>
             <TableCell>{formatDate(closeDate)}</TableCell>
             <StatusCell openDate={openDate} closeDate={closeDate} />
