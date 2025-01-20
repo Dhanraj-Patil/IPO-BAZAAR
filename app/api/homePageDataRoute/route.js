@@ -7,7 +7,7 @@ export async function GET(req) {
   
   try {
     // Include 'symbol' in the projection
-    const ipoData = await IpoSchema.find({}, 'IPOName IPOType issuePeriod symbol');
+    const ipoData = await IpoSchema.find({}, 'IPOName IPOType issuePeriod symbol listingGain');
     console.log('IPO Data:', ipoData);
     return new Response(JSON.stringify(ipoData), { status: 200 });
   } catch (error) {
