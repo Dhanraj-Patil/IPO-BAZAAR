@@ -6,8 +6,8 @@ export async function GET(req) {
   console.log('Connected to DB');
   
   try {
-    // Include 'symbol' in the projection
-    const ipoData = await IpoSchema.find({}, 'IPOName IPOType issuePeriod symbol listingGain');
+    // Include the specified fields in the projection
+    const ipoData = await IpoSchema.find({}, 'IPOName logoURL ipoDate priceRange ipoType allotmentLink listingGain');
     console.log('IPO Data:', ipoData);
     return new Response(JSON.stringify(ipoData), { status: 200 });
   } catch (error) {

@@ -1,16 +1,19 @@
+"use client";
+
 import HomePageStats from "@/components/HomePageStats";
 import { CombinedTable } from "@/components/HomePageTable";
-import { fetchAndProcessIPOData } from "@/utils/HomePageData";
+import { useContext } from 'react';
+import { IpoCommonDataContext } from '@/app/Context/IpoCommonDataContext';
 import Image from "next/image";
-export default async function Home() {
-  const { ipoData, smeData, listingGains } = await fetchAndProcessIPOData();
 
+export default function Home() {
+  const ipoData = useContext(IpoCommonDataContext);
+  
   return (
-    <div className="h-[100vh] w-[80%] mx-auto flex-col justify-between items-center ">
-      {/* hero section */}
+    <div className="h-[100vh] w-[80%] mx-auto flex-col justify-between items-center">
       <div className="flex justify-between items-center">
         <div className="pl-[1rem] w-[42%]">
-          <CombinedTable ipoData={ipoData} smeData={smeData} />
+          <CombinedTable ipoData={ipoData} />
         </div>
 
         <div className="translate-x-[2rem] w-[50%]">
@@ -23,11 +26,9 @@ export default async function Home() {
           />
         </div>
       </div>
-      {/* stats section */}
       <div>
-         <HomePageStats listingGains={listingGains} />
+        <HomePageStats ipoData={ipoData} />
       </div>
-     
     </div>
   );
 }
