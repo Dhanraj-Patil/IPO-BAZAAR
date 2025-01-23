@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const IpoSchema = new mongoose.Schema({
   IPOName: { type: String, required: true },
-  logoURL: { type: String, required: true },
+  logoBase64: { type: String, required: true }, // Changed from logoURL to logoBase64
   ipoDate: { type: String, required: true },
   listingDate: { type: String, required: true },
   priceRange: { type: String, required: true },
@@ -21,7 +21,7 @@ const IpoSchema = new mongoose.Schema({
   },
   strengths: { type: [String], required: true },
   risks: { type: [String], required: true },
-  allotmentLink: { type: String, required: true },
+  allotmentLink: { type: String, default: null  },
   financialData: {
     labels: { type: [String], required: true },
     TotalAssets: { type: [Number], required: true },
