@@ -1,12 +1,15 @@
-import React from 'react'
-import { useContext } from 'react';
+"use client";
+import React, { useContext } from 'react';
 import { IpoCommonDataContext } from '@/app/Context/IpoCommonDataContext';
-import MainTable from '@/components/MainTable';
-export default function page() {
+import { DataTableDemo } from '@/components/MainTable';
+
+export default function Page() {
   const ipoData = useContext(IpoCommonDataContext);
+  const ipoFilteredData = ipoData.filter(item => item.ipoType === 'IPO');
+
   return (
-    <div>
-      <MainTable ipoData={ipoData} />
+    <div className='max-h-full max-w-[73%] mx-auto m-3 p-2'>
+      <DataTableDemo data={ipoFilteredData} />
     </div>
-  )
+  );
 }
