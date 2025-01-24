@@ -9,7 +9,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, ChevronDown, MoreHorizontal, ArrowUp, ArrowDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -127,7 +127,7 @@ const columns = [
       return (
         <div>
           {row.getValue("IPOName")}
-          <span className={`ml-2 text-[0.6rem] px-2 py-1 rounded ${statusColors[status]}`}>
+          <span className={`ml-2 text-[0.65rem] p-1 rounded ${statusColors[status]}`}>
             {status}
           </span>
         </div>
@@ -162,7 +162,7 @@ const columns = [
         href={row.getValue("allotmentLink")} 
         target="_blank" 
         rel="noopener noreferrer" 
-        className="text-center hover:text-green-500 hover:underline"
+        className="text-center hover:text-[#03c02c] hover:underline"
       >
         Allotment Link
       </a>
@@ -171,7 +171,38 @@ const columns = [
   {
     accessorKey: "listingGain",
     header: "Listing Gain",
-    cell: ({ row }) => <div className="text-center">{row.getValue("listingGain") ?? "N/A"}</div>,
+    cell: ({ row }) => {
+      const listingGain = row.getValue("listingGain");
+      
+      if (listingGain === null) {
+        return <div className="text-center text-[#FEBE10]">Yet To Be Listed</div>;
+      }
+      
+      const numericGain = parseFloat(listingGain);
+      const isPositive = numericGain > 0;
+      const isNegative = numericGain < 0;
+      const isZero = numericGain === 0;
+      return (
+        <div className="text-center flex items-center justify-center">
+          {isPositive && (
+            <ArrowUp className="mr-1" color="#03c02c" size={13} />
+          )}
+          {isNegative && (
+            <ArrowDown className="mr-1" color="#EF0107" size={13} />
+          )}
+          <span 
+            style={{
+              color: isPositive ? "#03c02c" : 
+                     isNegative ? "#EF0107" : 
+                     isZero ? "#FEBE10" : 
+                     "inherit"
+            }}
+          >
+            {listingGain}%
+          </span>
+        </div>
+      );
+    },
   },
   {
     id: "actions",
@@ -227,7 +258,7 @@ export function DataTableDemo({ data }) {
           onChange={(event) =>
             table.getColumn("IPOName")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm bg-[#111822]"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -276,7 +307,7 @@ export function DataTableDemo({ data }) {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody >
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id}>
