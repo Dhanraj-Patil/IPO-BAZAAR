@@ -10,13 +10,13 @@ export default function Home() {
   const ipoData = useContext(IpoCommonDataContext);
   
   return (
-    <div className="h-[100vh] w-[80%] mx-auto flex-col justify-between items-center">
-      <div className="flex justify-between items-center">
-        <div className="pl-[1rem] w-[42%]">
+    <div className=" w-[80%] mx-auto flex-col justify-between items-center">
+      <div className="flex justify-between items-center mb-4">
+        <div className="pl-[1rem] w-[45%]">
           <CombinedTable ipoData={ipoData} />
         </div>
 
-        <div className="translate-x-[2rem] w-[50%]">
+        <div className="translate-x-[2rem] w-[55%]">
           <Image
             src="/Assets/BB.png"
             width={2700}

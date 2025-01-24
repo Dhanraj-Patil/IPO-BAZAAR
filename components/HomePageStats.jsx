@@ -22,11 +22,7 @@ function HomePageStats({ ipoData = [] }) {
       : 0;
 
   // Get total IPO count for 2025
-  const totalIpos2025 = ipoData.filter(ipo => {
-    if (!ipo.issuePeriod) return false;
-    const [openDate] = ipo.issuePeriod.split(' to ');
-    return openDate.includes('2025');
-  }).length;
+  const totalIpos2025 = positiveCount+negativeCount;
 
   // IntersectionObserver hooks for each section
   const { ref: ref1, inView: inView1 } = useInView({ triggerOnce: true });
@@ -35,7 +31,7 @@ function HomePageStats({ ipoData = [] }) {
   const { ref: ref4, inView: inView4 } = useInView({ triggerOnce: true });
 
   return (
-    <div className="darkModeNavyBg rounded-2xl p-5 flex justify-around shadow-2xl">
+    <div className="darkModeNavyBg rounded-2xl p-5 flex justify-around shadow-2xl text-white hover:scale-105 transition-all ease-in-out duration-700">
       <div className="flex flex-col justify-between items-center" ref={ref1}>
         <p className="text-6xl text-[#FEBE10]">
           {inView1 ? <CountUp end={totalIpos2025} duration={1.5} /> : "0"}

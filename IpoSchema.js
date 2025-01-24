@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 
 const IpoSchema = new mongoose.Schema({
   IPOName: { type: String, required: true },
-  logoBase64: { type: String, required: true }, // Changed from logoURL to logoBase64
+  symbol: { type: String, default: null }, // New field added here
+  logoBase64: { type: String, required: true },
   ipoDate: { type: String, required: true },
   listingDate: { type: String, required: true },
   priceRange: { type: String, required: true },
@@ -29,8 +30,8 @@ const IpoSchema = new mongoose.Schema({
     ProfitAfterTax: { type: [Number], required: true },
   },
   IPOLink: { type: String, required: true },
-  listingGain: { type: Number, default: null }, // Optional field, default to null
-  createdAt: { type: Date, default: Date.now } // Timestamp field
+  listingGain: { type: Number, default: null },
+  createdAt: { type: Date, default: Date.now }
 });
 
 export default mongoose.models.Ipo || mongoose.model('Ipo', IpoSchema);
