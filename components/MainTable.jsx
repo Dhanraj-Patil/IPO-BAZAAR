@@ -78,11 +78,61 @@ const splitDateRange = (dateStr) => {
   }
 };
 
+const parseDate = (dateStr) => {
+  if (!dateStr) return null;
+
+  const match = dateStr.match(/(\d+)(?:st|nd|rd|th)?\s+([A-Za-z]+)/);
+  if (!match) return null;
+
+  const [, day, month] = match;
+  const currentYear = new Date().getFullYear();
+  const monthIndex = new Date(`${month} 1, ${currentYear}`).getMonth();
+
+  return new Date(currentYear, monthIndex, parseInt(day));
+};
+
+const getStatus = (openDateStr, closeDateStr) => {
+  const openDateObj = parseDate(openDateStr);
+  const closeDateObj = parseDate(closeDateStr);
+
+  if (!openDateObj || !closeDateObj) {
+    return "Upcoming";
+  }
+
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+
+  if (currentDate >= openDateObj && currentDate <= closeDateObj) {
+    return "Open";
+  }
+  if (currentDate > closeDateObj) {
+    return "Closed";
+  }
+  return "Upcoming";
+};
+
+const statusColors = {
+  Closed: "bg-[#EF0107]",
+  Upcoming: "bg-[#FEBE10]",
+  Open: "bg-[#03c02c]",
+};
+
 const columns = [
   {
     accessorKey: "IPOName",
     header: "IPO Name",
-    cell: ({ row }) => <div>{row.getValue("IPOName")}</div>,
+    cell: ({ row }) => {
+      const { openDate, closeDate } = splitDateRange(row.original.ipoDate);
+      const status = getStatus(openDate, closeDate);
+      return (
+        <div>
+          {row.getValue("IPOName")}
+          <span className={`ml-2 text-[0.6rem] px-2 py-1 rounded ${statusColors[status]}`}>
+            {status}
+          </span>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "openDate",
@@ -108,7 +158,12 @@ const columns = [
     accessorKey: "allotmentLink",
     header: "Allotment Link",
     cell: ({ row }) => (
-      <a href={row.getValue("allotmentLink")} target="_blank" rel="noopener noreferrer" className="text-center">
+      <a 
+        href={row.getValue("allotmentLink")} 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="text-center hover:text-green-500 hover:underline"
+      >
         Allotment Link
       </a>
     ),
