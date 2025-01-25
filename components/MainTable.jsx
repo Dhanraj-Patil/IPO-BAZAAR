@@ -10,7 +10,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import {
-  ArrowUpDown,
   ChevronDown,
   MoreHorizontal,
   ArrowUp,
@@ -23,8 +22,6 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -56,23 +53,15 @@ const splitDateRange = (dateStr) => {
     const getOrdinalSuffix = (day) => {
       if (day > 3 && day < 21) return "th";
       switch (day % 10) {
-        case 1:
-          return "st";
-        case 2:
-          return "nd";
-        case 3:
-          return "rd";
-        default:
-          return "th";
+        case 1: return "st";
+        case 2: return "nd";
+        case 3: return "rd";
+        default: return "th";
       }
     };
 
-    const formattedStartDay = `${parseInt(startDay)}${getOrdinalSuffix(
-      parseInt(startDay)
-    )}`;
-    const formattedEndDay = `${parseInt(endDay)}${getOrdinalSuffix(
-      parseInt(endDay)
-    )}`;
+    const formattedStartDay = `${parseInt(startDay)}${getOrdinalSuffix(parseInt(startDay))}`;
+    const formattedEndDay = `${parseInt(endDay)}${getOrdinalSuffix(parseInt(endDay))}`;
 
     return {
       openDate: `${formattedStartDay} ${month}`,
@@ -217,6 +206,22 @@ const columns = [
           >
             {listingGain}%
           </span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "price",
+    header: "CMP",
+    cell: ({ row }) => {
+      const price = row.original.price || 'N/A';
+      return (
+        <div className="text-center">
+          {price === 'N/A' ? (
+            <span className="text-yellow-500">N/A</span>
+          ) : (
+            <span className="font-bold">₹{price}</span>
+          )}
         </div>
       );
     },
