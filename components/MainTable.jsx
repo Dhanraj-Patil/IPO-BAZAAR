@@ -212,15 +212,59 @@ const columns = [
   },
   {
     accessorKey: "price",
-    header: "CMP",
+    header: "Current Market Price",
     cell: ({ row }) => {
       const price = row.original.price || 'N/A';
+      const priceRange = row.original.priceRange || '';
+      
+      // Function to calculate gain
+      const calculateGain = () => {
+        if (price === 'N/A' || !priceRange) return null;
+        
+        // Remove ₹ and split price range
+        const cleanRange = priceRange.replace(/₹/g, '').split('–').map(p => p.trim());
+        
+        // Determine upper band (max price)
+        const upperBand = cleanRange.length > 1 
+          ? parseFloat(cleanRange[1]) 
+          : parseFloat(cleanRange[0]);
+        
+        const currentPrice = parseFloat(price);
+        
+        if (isNaN(upperBand) || isNaN(currentPrice)) return null;
+        
+        const gainAmount = currentPrice - upperBand;
+        const gainPercentage = (gainAmount / upperBand) * 100;
+        
+        return {
+          amount: gainAmount.toFixed(2),
+          percentage: gainPercentage.toFixed(2)
+        };
+      };
+      
+      const gain = calculateGain();
+      
       return (
         <div className="text-center">
           {price === 'N/A' ? (
             <span className="text-yellow-500">N/A</span>
           ) : (
-            <span className="font-bold">₹{price}</span>
+            <div>
+              <span className="font-medium">₹{price}</span>
+              {gain && (
+                <p
+                  className={`ml-2 text-xs ${
+                    gain.amount > 0 
+                      ? 'text-green-600' 
+                      : gain.amount < 0 
+                        ? 'text-red-600' 
+                        : 'text-yellow-500'
+                  }`}
+                >
+                  ({gain.amount > 0 ? '+' : ''}{gain.amount} | {gain.percentage}%)
+                </p>
+              )}
+            </div>
           )}
         </div>
       );
