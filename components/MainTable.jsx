@@ -212,7 +212,7 @@ const columns = [
   },
   {
     accessorKey: "price",
-    header: "Current Market Price",
+    header: "CMP",
     cell: ({ row }) => {
       const price = row.original.price || 'N/A';
       const priceRange = row.original.priceRange || '';
@@ -252,7 +252,7 @@ const columns = [
             <div>
               <span className="font-medium">₹{price}</span>
               {gain && (
-                <p
+                <span
                   className={`ml-2 text-xs ${
                     gain.amount > 0 
                       ? 'text-green-600' 
@@ -261,8 +261,8 @@ const columns = [
                         : 'text-yellow-500'
                   }`}
                 >
-                  ({gain.amount > 0 ? '+' : ''}{gain.amount} | {gain.percentage}%)
-                </p>
+                  ( {gain.percentage}%)
+                </span>
               )}
             </div>
           )}
