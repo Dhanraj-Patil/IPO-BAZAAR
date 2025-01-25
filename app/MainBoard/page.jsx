@@ -1,11 +1,15 @@
 "use client";
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { IpoCommonDataContext } from '@/app/Context/IpoCommonDataContext';
 import { DataTableDemo } from '@/components/MainTable';
 
 export default function Page() {
   const ipoData = useContext(IpoCommonDataContext);
-  const ipoFilteredData = ipoData.filter(item => item.ipoType === 'IPO');
+  
+  const ipoFilteredData = useMemo(() => 
+    ipoData.filter(item => item.ipoType === 'IPO'), 
+    [ipoData]
+  );
 
   return (
     <div className='max-h-full max-w-[80%] mx-auto m-3 p-2'>

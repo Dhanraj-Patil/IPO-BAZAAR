@@ -142,6 +142,15 @@ const columns = [
         </div>
       );
     },
+    sortingFn: (rowA, rowB, columnId) => {
+      const dateA = parseDate(splitDateRange(rowA.original.ipoDate).closeDate);
+      const dateB = parseDate(splitDateRange(rowB.original.ipoDate).closeDate);
+
+      if (!dateA) return -1;
+      if (!dateB) return 1;
+
+      return dateA.getTime() - dateB.getTime();
+    },
   },
   {
     accessorKey: "priceRange",
@@ -217,14 +226,11 @@ const columns = [
       const price = row.original.price || 'N/A';
       const priceRange = row.original.priceRange || '';
       
-      // Function to calculate gain
       const calculateGain = () => {
         if (price === 'N/A' || !priceRange) return null;
         
-        // Remove ₹ and split price range
         const cleanRange = priceRange.replace(/₹/g, '').split('–').map(p => p.trim());
         
-        // Determine upper band (max price)
         const upperBand = cleanRange.length > 1 
           ? parseFloat(cleanRange[1]) 
           : parseFloat(cleanRange[0]);
@@ -294,7 +300,9 @@ const columns = [
 ];
 
 export function DataTableDemo({ data }) {
-  const [sorting, setSorting] = React.useState([]);
+  const [sorting, setSorting] = React.useState([
+    { id: 'ipoDate', desc: true } // Default sorting by closing date descending
+  ]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
 
