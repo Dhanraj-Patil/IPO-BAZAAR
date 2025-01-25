@@ -31,15 +31,15 @@ function HomePageStats({ ipoData = [] }) {
   const { ref: ref4, inView: inView4 } = useInView({ triggerOnce: true });
 
   return (
-    <div className="darkModeNavyBg rounded-2xl p-5 flex justify-around shadow-2xl text-white hover:scale-105 transition-all ease-in-out duration-700">
+    <div className="darkModeNavyBg rounded-2xl py-2 flex justify-around shadow-2xl text-white hover:scale-105 transition-all ease-in-out duration-700 mt-6">
       <div className="flex flex-col justify-between items-center" ref={ref1}>
-        <p className="text-6xl text-[#FEBE10]">
+        <p className="text-3xl text-[#FEBE10]">
           {inView1 ? <CountUp end={totalIpos2025} duration={1.5} /> : "0"}
         </p>
-        <p className="text-lg">IPO's Listed in 2025</p>
+        <p className="text-sm">IPO's Listed in 2025</p>
       </div>
       <div className="flex flex-col justify-between items-center" ref={ref2}>
-        <p className="text-6xl text-[#03c02c]">
+        <p className="text-3xl text-[#03c02c]">
           {inView2 ? (
             <CountUp 
               end={Number.isFinite(average) ? average : 0} 
@@ -49,19 +49,19 @@ function HomePageStats({ ipoData = [] }) {
             />
           ) : "0"}
         </p>
-        <p className="text-lg">Average Listing Gains</p>
+        <p className="text-sm">Average Listing Gains</p>
       </div>
       <div className="flex flex-col justify-between items-center" ref={ref3}>
-        <p className="text-6xl text-[#03c02c]">
+        <p className="text-3xl text-[#03c02c]">
           {inView3 ? <CountUp end={positiveCount} duration={1.5} /> : "0"}
         </p>
-        <p className="text-lg">IPO's Listed in Positive</p>
+        <p className="text-sm">IPO's Listed in Positive</p>
       </div>
       <div className="flex flex-col justify-between items-center" ref={ref4}>
-        <p className="text-6xl text-[#EF0107]">
+        <p className="text-3xl text-[#EF0107]">
           {inView4 ? <CountUp end={negativeCount} duration={1.5} /> : "0"}
         </p>
-        <p className="text-lg">IPO's Listed in Negative</p>
+        <p className="text-sm">IPO's Listed in Negative</p>
       </div>
     </div>
   );

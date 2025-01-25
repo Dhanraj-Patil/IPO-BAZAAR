@@ -11,7 +11,10 @@ export default function Home() {
   
   return (
     <div className=" w-[80%] mx-auto flex-col justify-between items-center">
-      <div className="flex justify-between items-center mb-4">
+      <div className="max-w-[90%] mx-auto">
+        <HomePageStats ipoData={ipoData} />
+      </div>
+      <div className="flex justify-between items-center mb-4 translate-y-[-3rem]">
         <div className="pl-[1rem] w-[45%]">
           <CombinedTable ipoData={ipoData} />
         </div>
@@ -26,9 +29,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <div>
-        <HomePageStats ipoData={ipoData} />
-      </div>
+      
     </div>
   );
 }

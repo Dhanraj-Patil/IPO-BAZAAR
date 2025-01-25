@@ -9,7 +9,13 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal, ArrowUp, ArrowDown } from "lucide-react";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  MoreHorizontal,
+  ArrowUp,
+  ArrowDown,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -127,7 +133,9 @@ const columns = [
       return (
         <div>
           {row.getValue("IPOName")}
-          <span className={`ml-2 text-[0.65rem] p-1 rounded ${statusColors[status]}`}>
+          <span
+            className={`ml-2 text-[0.65rem] p-1 rounded ${statusColors[status]}`}
+          >
             {status}
           </span>
         </div>
@@ -135,33 +143,39 @@ const columns = [
     },
   },
   {
-    accessorKey: "openDate",
-    header: "Open Date",
-    cell: ({ row }) => <div className="text-center">{splitDateRange(row.original.ipoDate).openDate}</div>,
-  },
-  {
-    accessorKey: "closeDate",
-    header: "Close Date",
-    cell: ({ row }) => <div className="text-center">{splitDateRange(row.original.ipoDate).closeDate}</div>,
+    accessorKey: "ipoDate",
+    header: "IPO Date Range",
+    cell: ({ row }) => {
+      const { openDate, closeDate } = splitDateRange(row.original.ipoDate);
+      return (
+        <div className="text-center">
+          {openDate} - {closeDate}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "priceRange",
     header: "Price Range",
-    cell: ({ row }) => <div className="text-center">{row.getValue("priceRange")}</div>,
+    cell: ({ row }) => (
+      <div className="text-center">{row.getValue("priceRange")}</div>
+    ),
   },
   {
     accessorKey: "lotSize",
     header: "Lot Size",
-    cell: ({ row }) => <div className="text-center">{row.getValue("lotSize")}</div>,
+    cell: ({ row }) => (
+      <div className="text-center">{row.getValue("lotSize")}</div>
+    ),
   },
   {
     accessorKey: "allotmentLink",
     header: "Allotment Link",
     cell: ({ row }) => (
-      <a 
-        href={row.getValue("allotmentLink")} 
-        target="_blank" 
-        rel="noopener noreferrer" 
+      <a
+        href={row.getValue("allotmentLink")}
+        target="_blank"
+        rel="noopener noreferrer"
         className="text-center hover:text-[#03c02c] hover:underline"
       >
         Allotment Link
@@ -173,29 +187,32 @@ const columns = [
     header: "Listing Gain",
     cell: ({ row }) => {
       const listingGain = row.getValue("listingGain");
-      
+
       if (listingGain === null) {
-        return <div className="text-center text-[#FEBE10]">Yet To Be Listed</div>;
+        return (
+          <div className="text-center text-[#FEBE10]">Yet To Be Listed</div>
+        );
       }
-      
+
       const numericGain = parseFloat(listingGain);
       const isPositive = numericGain > 0;
       const isNegative = numericGain < 0;
       const isZero = numericGain === 0;
       return (
         <div className="text-center flex items-center justify-center">
-          {isPositive && (
-            <ArrowUp className="mr-1" color="#03c02c" size={13} />
-          )}
+          {isPositive && <ArrowUp className="mr-1" color="#03c02c" size={13} />}
           {isNegative && (
             <ArrowDown className="mr-1" color="#EF0107" size={13} />
           )}
-          <span 
+          <span
             style={{
-              color: isPositive ? "#03c02c" : 
-                     isNegative ? "#EF0107" : 
-                     isZero ? "#FEBE10" : 
-                     "inherit"
+              color: isPositive
+                ? "#03c02c"
+                : isNegative
+                ? "#EF0107"
+                : isZero
+                ? "#FEBE10"
+                : "inherit",
             }}
           >
             {listingGain}%
@@ -294,7 +311,12 @@ export function DataTableDemo({ data }) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className={header.column.id !== "IPOName" ? "text-center" : ""}>
+                    <TableHead
+                      key={header.id}
+                      className={
+                        header.column.id !== "IPOName" ? "text-center" : ""
+                      }
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -307,20 +329,31 @@ export function DataTableDemo({ data }) {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody >
+          <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className={cell.column.id !== "IPOName" ? "text-center" : ""}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    <TableCell
+                      key={cell.id}
+                      className={
+                        cell.column.id !== "IPOName" ? "text-center" : ""
+                      }
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>
