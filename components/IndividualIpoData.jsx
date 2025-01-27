@@ -138,7 +138,7 @@ export default function IndividualIpoData({ ipoData }) {
           </p>
         </div>
       </div>
-      <div className="flex mt-10 justify-evenly items-center">
+      <div className="flex mt-10 w-[100%] justify-evenly items-center">
         <div className="">
           <p className="flex items-center text-xl uppercase rounded-xl underline underline-offset-8 p-3">
             Ipo Subscription Figures
