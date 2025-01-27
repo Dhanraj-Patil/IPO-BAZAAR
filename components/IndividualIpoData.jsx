@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink, faDownload, faFile } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "./ui/button";
-import CountUp from 'react-countup';
-
+import CountUp from "react-countup";
+import SubTable from "./SubTable";
+import { FaArrowRight } from "react-icons/fa";
 export default function IndividualIpoData({ ipoData }) {
   // Extract Open Date and Close Date from ipoData.ipoDate
   const [openPart, closePart] = ipoData.ipoDate
@@ -42,17 +43,19 @@ export default function IndividualIpoData({ ipoData }) {
     : "";
 
   // Convert issueSize and lotSize to numbers
-  const issueSizeNumber = parseFloat(ipoData.issueSize.replace('cr', '')); // Convert crores to number
+  const issueSizeNumber = parseFloat(ipoData.issueSize.replace("cr", "")); // Convert crores to number
   const lotSizeNumber = parseFloat(ipoData.lotSize);
 
   // Extract upper bound of price range
-  const priceRangeUpperBound = parseFloat(ipoData.priceRange.split('–')[1].trim().replace('₹', ''));
+  const priceRangeUpperBound = parseFloat(
+    ipoData.priceRange.split("–")[1].trim().replace("₹", "")
+  );
 
   // Calculate approximate value per lot
   const approxValuePerLot = lotSizeNumber * priceRangeUpperBound;
 
   return (
-    <div className="w-[80%] mx-auto flex-col ">
+    <div className="w-[80%] mx-auto flex-col  ">
       <div className="flex justify-self-center gap-8 m-4 p-3 ">
         {ipoData.logoBase64 && (
           <img
@@ -98,10 +101,16 @@ export default function IndividualIpoData({ ipoData }) {
         </div>
         <div className="flex flex-col justify-center items-center">
           <p className="text-4xl text-[#03c02c]">
-            <CountUp end={lotSizeNumber} duration={2} /> 
+            <CountUp end={lotSizeNumber} duration={2} />
           </p>
-          
-          <p>Lot Size <span className="text-[0.8rem] text-[#03c02c]">(₹<CountUp end={approxValuePerLot} duration={2} /> per lot approx.)</span></p>
+
+          <p>
+            Lot Size{" "}
+            <span className="text-[0.8rem] text-[#03c02c]">
+              (₹
+              <CountUp end={approxValuePerLot} duration={2} /> per lot approx.)
+            </span>
+          </p>
         </div>
         <div className="flex flex-col justify-center items-center">
           <a
@@ -123,8 +132,19 @@ export default function IndividualIpoData({ ipoData }) {
               <FontAwesomeIcon icon={faDownload} />
             </Button>
           </a>
-          <p>Download Prospectus <FontAwesomeIcon icon={faFile} /></p> 
+          <p>
+            Download Prospectus <FontAwesomeIcon icon={faFile} />
+          </p>
         </div>
+      </div>
+      <div className="mt-10">
+        <p className="flex items-center text-xl uppercase rounded-xl underline underline-offset-8 p-3">
+          Ipo Subscription Figures
+          <span className="ml-2">
+            <FaArrowRight className="text-[#B0FA04] text-xl" />
+          </span>
+        </p>
+        <SubTable link={ipoData.IPOLink} />
       </div>
     </div>
   );
