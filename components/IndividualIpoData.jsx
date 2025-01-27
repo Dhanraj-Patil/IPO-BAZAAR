@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import CountUp from "react-countup";
 import SubTable from "./SubTable";
 import { FaArrowRight } from "react-icons/fa";
+import ApplyCatTable from "./ApplyCatTable";
 export default function IndividualIpoData({ ipoData }) {
   // Extract Open Date and Close Date from ipoData.ipoDate
   const [openPart, closePart] = ipoData.ipoDate
@@ -137,14 +138,25 @@ export default function IndividualIpoData({ ipoData }) {
           </p>
         </div>
       </div>
-      <div className="mt-10">
-        <p className="flex items-center text-xl uppercase rounded-xl underline underline-offset-8 p-3">
-          Ipo Subscription Figures
-          <span className="ml-2">
-            <FaArrowRight className="text-[#B0FA04] text-xl" />
-          </span>
-        </p>
-        <SubTable link={ipoData.IPOLink} />
+      <div className="flex mt-10 justify-evenly items-center">
+        <div className="">
+          <p className="flex items-center text-xl uppercase rounded-xl underline underline-offset-8 p-3">
+            Ipo Subscription Figures
+            <span className="ml-2">
+              <FaArrowRight className="text-[#B0FA04] text-xl" />
+            </span>
+          </p>
+          <SubTable link={ipoData.IPOLink} />
+        </div>
+        <div className="">
+          <p className="flex items-center text-xl uppercase rounded-xl underline underline-offset-8 p-3">
+            Application Categories
+            <span className="ml-2">
+              <FaArrowRight className="text-[#B0FA04] text-xl" />
+            </span>
+          </p>
+          <ApplyCatTable lotSize={lotSizeNumber} Price={priceRangeUpperBound} />
+        </div>
       </div>
     </div>
   );
