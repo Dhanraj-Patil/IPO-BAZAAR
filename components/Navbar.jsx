@@ -25,8 +25,8 @@ function Navbar() {
         <div className="flex items-center justify-between gap-10">
           {[
             { href: "/", label: "Home" },
-            { href: "/MainBoard", label: "MainBoard IPO" },
-            { href: "/SMEIPO", label: "SME IPO" },
+            { href: "/IPO", label: "MainBoard IPO" },
+            { href: "/SME", label: "SME IPO" },
             { href: "/SubscriptionStatus", label: "Subscription Status" },
             { href: "/GreyMarketPremium", label: "GMP" },
           ].map(({ href, label }) => (

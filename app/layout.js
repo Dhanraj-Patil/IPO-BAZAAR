@@ -22,6 +22,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en" suppressHydrationWarning>
+      
       <head />
       <body className={`${poppins.className} antialiased`}>
         <ThemeProvider

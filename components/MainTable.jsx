@@ -1,5 +1,7 @@
 "use client";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLink } from '@fortawesome/free-solid-svg-icons'
+import { useRouter } from 'next/navigation';
 import * as React from "react";
 import {
   flexRender,
@@ -112,7 +114,7 @@ const statusColors = {
   Open: "bg-[#03c02c]",
 };
 
-const columns = [
+const getColumns = (router) => [
   {
     accessorKey: "IPOName",
     header: "IPO Name",
@@ -176,7 +178,8 @@ const columns = [
         rel="noopener noreferrer"
         className="text-center hover:text-[#03c02c] hover:underline"
       >
-        Allotment Link
+        Allotment Link 
+         <FontAwesomeIcon icon={faLink} style={{ color: "#babdbf" }} className="ml-2" />
       </a>
     ),
   },
@@ -267,7 +270,7 @@ const columns = [
                         : 'text-yellow-500'
                   }`}
                 >
-                  ( {gain.percentage}%)
+                  ({gain.amount > 0 ? '+' : ''}{gain.percentage}%)
                 </span>
               )}
             </div>
@@ -281,6 +284,12 @@ const columns = [
     enableHiding: false,
     cell: ({ row }) => {
       const ipo = row.original;
+      const handleViewDetails = () => {
+        const route = ipo.ipoType === 'IPO' 
+          ? `/IPO/${ipo._id}` 
+          : `/SME/${ipo._id}`;
+        router.push(route);
+      };
 
       return (
         <DropdownMenu>
@@ -291,7 +300,9 @@ const columns = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>View More Details</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleViewDetails}>
+              View More Details
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -300,11 +311,14 @@ const columns = [
 ];
 
 export function DataTableDemo({ data }) {
+  const router = useRouter();
   const [sorting, setSorting] = React.useState([
     { id: 'ipoDate', desc: true } // Default sorting by closing date descending
   ]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
+
+  const columns = React.useMemo(() => getColumns(router), [router]);
 
   const table = useReactTable({
     data,

@@ -140,9 +140,9 @@ const renderTable = (data, type) => {
       </TableHeader>
       <TableBody className="text-white">
         {filteredData.map((company) => {
-          const { symbol, IPOName, openDate, closeDate } = company;
+          const {_id, symbol, IPOName, openDate, closeDate } = company;
           const companyLink =
-            type === "IPO" ? `/IPO/${symbol}` : `/SME/${symbol}`;
+            type === "IPO" ? `/IPO/${_id}` : `/SME/${_id}`;
 
           return (
             <TableRow
