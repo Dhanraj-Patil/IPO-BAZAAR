@@ -62,7 +62,7 @@ import {
     const tableData = calculateRows();
   
     return (
-      <div className="rounded-2xl mt-3 hover:scale-105 transition-all ease-in-out duration-700">
+      <div className="rounded-2xl mt-3 hover:scale-105 transition-all ease-in-out duration-700 ">
         <Table>
           <TableHeader>
             <TableRow>

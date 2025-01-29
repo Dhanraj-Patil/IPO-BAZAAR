@@ -85,7 +85,7 @@ function SubTable({ link }) {
 
   return (
     <div className="rounded-2xl mt-3 hover:scale-105 transition-all ease-in-out duration-700  ">
-      <Table>
+      <Table >
         <TableHeader>
           <TableRow>
             {Object.keys(data[0]).map((header) => (
