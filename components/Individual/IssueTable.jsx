@@ -15,7 +15,7 @@ const IssueTables = ({ issueSizeDetails }) => {
   );
 
   return (
-    <div className="w-full flex gap-6 p-4">
+    <div className="w-full flex gap-6 ">
       {/* Issue Size Details Table */}
       <div className="w-1/2">
         <p className="flex items-center text-xl font-medium uppercase rounded-xl underline underline-offset-8 p-3 mb-4">

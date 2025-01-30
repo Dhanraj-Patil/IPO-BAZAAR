@@ -7,6 +7,7 @@ import { FaArrowRight } from "react-icons/fa";
 import ApplyCatTable from "./ApplyCatTable";
 import Graph from "./Graph";
 import IssueTables from "./IssueTable";
+import IPOTimeline from "./Timeline";
 export default function IndividualIpoData({ ipoData }) {
   // Extract Open Date and Close Date from ipoData.ipoDate
   const [openPart, closePart] = ipoData.ipoDate
@@ -148,9 +149,9 @@ export default function IndividualIpoData({ ipoData }) {
               <FaArrowRight className="text-[#B0FA04] text-xl" />
             </span>
           </p>
-          <SubTable link={ipoData.IPOLink}  />
+          <SubTable link={ipoData.IPOLink} />
         </div>
-        <div className="w-[58%] " >
+        <div className="w-[58%] ">
           <p className="flex items-center text-xl font-medium uppercase rounded-xl underline underline-offset-8 p-3">
             Application Categories
             <span className="ml-2">
@@ -163,8 +164,59 @@ export default function IndividualIpoData({ ipoData }) {
       <div>
         <Graph data={ipoData.financialData} />
       </div>
-      <div>
+      <div className="w-full mt-4">
         <IssueTables issueSizeDetails={ipoData.issueSizeDetails} />
+      </div>
+      <div className="w-full flex justify-between items-start gap-6 mt-10">
+        <div className="w-[50%]">
+          <IPOTimeline ipoSchedule={ipoData.ipoSchedule} />
+        </div>
+
+        <div className="w-[50%] bg-[#111822] p-7 rounded-2xl hover:scale-105 transition-all ease-in-out duration-700 ">
+          <p className="text-2xl font-semibold text-[#B0FA04]">
+            About {ipoData.IPOName.replace(/\s*IPO$/, "")}
+          </p>
+          <p>{ipoData.ipoDescription}</p>
+        </div>
+      </div>
+      <div className="mt-10 flex gap-6 w-full">
+        {/* Strengths Section */}
+        <div className="bg-[#111822] p-7 rounded-2xl hover:scale-105 transition-all ease-in-out duration-700 w-[50%]">
+          <h2 className="text-2xl font-semibold mb-3 text-[#B0FA04] uppercase">
+            Strengths
+          </h2>
+          <ul className="list-none pl-5">
+            {" "}
+            {/* Changed from list-disc to list-none */}
+            {ipoData.strengths.map((strength, index) => (
+              <li key={index} className="relative pl-4 mb-2">
+                {" "}
+                {/* Added mb-2 for spacing between items */}
+                <span className="absolute left-0 top-[0.6rem] w-2 h-2 bg-[#B0FA04] rounded-full"></span>
+                {strength}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Risks Section */}
+        <div className="bg-[#111822] p-7 rounded-2xl hover:scale-105 transition-all ease-in-out duration-700 w-[50%]">
+          <h2 className="text-2xl font-semibold mb-3 text-[#B0FA04] uppercase">
+            Risks
+          </h2>
+          <ul className="list-none pl-5">
+            {" "}
+            {/* Changed from list-disc to list-none */}
+            {ipoData.risks.map((risk, index) => (
+              <li key={index} className="relative pl-4 mb-2">
+                {" "}
+                {/* Added mb-2 for spacing between items */}
+                <span className="absolute left-0 top-[0.6rem] w-2 h-2 bg-[#B0FA04] rounded-full"></span>
+                {risk}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
