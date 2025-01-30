@@ -11,7 +11,7 @@ export default function Home() {
   
   return (
     <div className=" w-[80%] mx-auto flex-col justify-between items-center">
-      <div className="max-w-[90%] mx-auto">
+      <div className="max-w-[90%] mx-auto ">
         <HomePageStats ipoData={ipoData} />
       </div>
       <div className="flex justify-between items-center mb-4 translate-y-[-3rem]">
