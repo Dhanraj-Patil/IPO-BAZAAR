@@ -1,7 +1,7 @@
 "use client";
 
-import HomePageStats from "@/components/HomePageStats";
-import { CombinedTable } from "@/components/HomePageTable";
+import HomePageStats from "@/components/HomePage/HomePageStats";
+import { CombinedTable } from "@/components/HomePage/HomePageTable";
 import { useContext } from 'react';
 import { IpoCommonDataContext } from '@/app/Context/IpoCommonDataContext';
 import Image from "next/image";

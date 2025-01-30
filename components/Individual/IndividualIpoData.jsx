@@ -1,11 +1,12 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink, faDownload, faFile } from "@fortawesome/free-solid-svg-icons";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import CountUp from "react-countup";
-import SubTable from "./SubTable";
+import SubTable from "./SubscriptionTable";
 import { FaArrowRight } from "react-icons/fa";
 import ApplyCatTable from "./ApplyCatTable";
 import Graph from "./Graph";
+import IssueTables from "./IssueTable";
 export default function IndividualIpoData({ ipoData }) {
   // Extract Open Date and Close Date from ipoData.ipoDate
   const [openPart, closePart] = ipoData.ipoDate
@@ -161,6 +162,9 @@ export default function IndividualIpoData({ ipoData }) {
       </div>
       <div>
         <Graph data={ipoData.financialData} />
+      </div>
+      <div>
+        <IssueTables issueSizeDetails={ipoData.issueSizeDetails} />
       </div>
     </div>
   );

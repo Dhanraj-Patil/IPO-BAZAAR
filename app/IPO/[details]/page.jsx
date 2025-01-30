@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import IndividualIpoData from "@/components/IndividualIpoData";
+import IndividualIpoData from "@/components/Individual/IndividualIpoData";
 
 export default function IPODetailsPage() {
   const [ipoData, setIpoData] = useState(null);
