@@ -55,7 +55,7 @@ function Graph({ data }) {
   });
 
   return (
-    <div className="bg-[#111822] p-6 text-white rounded-2xl mt-11 ">
+    <div className="bg-[#111822] p-6 text-white rounded-2xl mt-11 shadow-2xl ">
       <h2 className="text-center mb-8 text-3xl">Financial Data </h2>
       <div className="flex space-x-6 justify-center">
         {/* Revenue Chart */}

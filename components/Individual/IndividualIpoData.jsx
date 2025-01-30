@@ -172,16 +172,17 @@ export default function IndividualIpoData({ ipoData }) {
           <IPOTimeline ipoSchedule={ipoData.ipoSchedule} />
         </div>
 
-        <div className="w-[50%] bg-[#111822] p-7 rounded-2xl hover:scale-105 transition-all ease-in-out duration-700 ">
+        <div className="w-[50%] shadow-2xl bg-[#111822] p-7 rounded-2xl hover:scale-105 transition-all ease-in-out duration-700 ">
           <p className="text-2xl font-semibold text-[#B0FA04]">
             About {ipoData.IPOName.replace(/\s*IPO$/, "")}
           </p>
-          <p>{ipoData.ipoDescription}</p>
+          
+          <p className="mt-3">{ipoData.ipoDescription}</p>
         </div>
       </div>
       <div className="mt-10 flex gap-6 w-full">
         {/* Strengths Section */}
-        <div className="bg-[#111822] p-7 rounded-2xl hover:scale-105 transition-all ease-in-out duration-700 w-[50%]">
+        <div className="bg-[#111822] p-7 rounded-2xl hover:scale-105 transition-all ease-in-out duration-700 w-[50%] shadow-2xl">
           <h2 className="text-2xl font-semibold mb-3 text-[#B0FA04] uppercase">
             Strengths
           </h2>
@@ -200,7 +201,7 @@ export default function IndividualIpoData({ ipoData }) {
         </div>
 
         {/* Risks Section */}
-        <div className="bg-[#111822] p-7 rounded-2xl hover:scale-105 transition-all ease-in-out duration-700 w-[50%]">
+        <div className="bg-[#111822] p-7 rounded-2xl hover:scale-105 transition-all ease-in-out duration-700 w-[50%] shadow-2xl">
           <h2 className="text-2xl font-semibold mb-3 text-[#B0FA04] uppercase">
             Risks
           </h2>

@@ -36,7 +36,7 @@ const IPOTimeline = ({ ipoSchedule }) => {
   const progressHeight = `${findProgressPercentage()}%`;
 
   return (
-    <div className="w-full  mx-auto p-6 bg-[#111822] rounded-2xl ">
+    <div className="w-full  mx-auto p-6 bg-[#111822] rounded-2xl shadow-2xl ">
         <p className='text-center text-2xl font-semibold uppercase '>Ipo Schedule</p>
         <br />
       <div className="relative">

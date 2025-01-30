@@ -8,14 +8,14 @@ export async function POST(req) {
     // Connect to the database
     await connectToDb();
 
-    // Add 'symbol' field and set it to null for all documents
+    // Add 'symbol' and 'visits' fields, setting 'symbol' to null and 'visits' to 0 for all documents
     const result = await IpoSchema.updateMany(
       {}, // Match all documents
-      { $set: { symbol: null } } // Add 'symbol' field and set it to null
+      { $set: { symbol: null, visits: 0 } } // Add fields and set default values
     );
 
     return NextResponse.json({
-      message: "Successfully added 'symbol' field and set it to null.",
+      message: "Successfully added 'symbol' field (null) and 'visits' field (0).",
       modifiedCount: result.modifiedCount,
     }, { status: 200 });
 

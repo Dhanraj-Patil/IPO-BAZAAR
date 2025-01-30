@@ -22,7 +22,7 @@ const IpoSchema = new mongoose.Schema({
   },
   strengths: { type: [String], required: true },
   risks: { type: [String], required: true },
-  allotmentLink: { type: String, default: null  },
+  allotmentLink: { type: String, default: null },
   financialData: {
     labels: { type: [String], required: true },
     TotalAssets: { type: [Number], required: true },
@@ -31,6 +31,7 @@ const IpoSchema = new mongoose.Schema({
   },
   IPOLink: { type: String, required: true },
   listingGain: { type: Number, default: null },
+  visits: { type: Number, default: 0 }, // New visits field added here
   createdAt: { type: Date, default: Date.now }
 });
 

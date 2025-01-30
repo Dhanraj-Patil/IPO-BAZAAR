@@ -44,7 +44,7 @@ const IssueTables = ({ issueSizeDetails }) => {
 
       {/* Utilization of Proceeds Table */}
       <div className="w-1/2">
-        <p className="flex items-center text-xl font-medium uppercase rounded-xl underline underline-offset-8 p-3 mb-4">
+        <p className="flex items-center text-xl  font-medium uppercase rounded-xl underline underline-offset-8 p-3 mb-4">
           Utilisation of Proceeds
           <span className="ml-2">
             <FaArrowRight className="text-[#B0FA04] text-xl" />
