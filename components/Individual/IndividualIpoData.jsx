@@ -60,7 +60,7 @@ export default function IndividualIpoData({ ipoData }) {
   const approxValuePerLot = lotSizeNumber * priceRangeUpperBound;
 
   return (
-    <div className="w-[80%] mx-auto flex-col relative ">
+    <div className="w-[80%] mx-auto flex-col relative mb-10">
       <div className="flex justify-self-center gap-8 m-4 p-3 ">
         {ipoData.logoBase64 && (
           <img

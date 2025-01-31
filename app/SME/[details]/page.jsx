@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import IndividualIpoData from "@/components/Individual/IndividualIpoData";
+import Loader from "../../loading"; // Importing Loader component
 
 export default function IPODetailsPage() {
   const [ipoData, setIpoData] = useState(null);
@@ -31,11 +32,10 @@ export default function IPODetailsPage() {
     }
   }, [params.details]);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />; // Using Loader component for better UX
   if (error) return <div>Error: {error}</div>;
   if (!ipoData) return <div>No IPO details found</div>;
 
-  // Pass ipoData as props to IndividualIpoData
   return (
     <div className="h-full">
       <IndividualIpoData ipoData={ipoData} />

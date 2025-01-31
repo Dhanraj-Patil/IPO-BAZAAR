@@ -28,7 +28,7 @@ function Navbar() {
             { href: "/IPO", label: "MainBoard IPO" },
             { href: "/SME", label: "SME IPO" },
             { href: "/SubscriptionStatus", label: "Subscription Status" },
-            { href: "/GreyMarketPremium", label: "GMP" },
+            
           ].map(({ href, label }) => {
             const isActive =
               href === "/"

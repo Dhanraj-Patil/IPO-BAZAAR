@@ -22,24 +22,23 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en" suppressHydrationWarning>
-      
-      <head />
-      <body className={`${poppins.className} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <IpoCommonDataProvider initialData={ipoData}>
-            <div>
-              <Navbar />
-              {children}
-              <Footer />
-            </div>
-          </IpoCommonDataProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <head />
+    <body className={`${poppins.className} antialiased min-h-screen`}>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <IpoCommonDataProvider initialData={ipoData}>
+          <div className="min-h-screen flex flex-col ">
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+        </IpoCommonDataProvider>
+      </ThemeProvider>
+    </body>
+  </html>
   );
 }

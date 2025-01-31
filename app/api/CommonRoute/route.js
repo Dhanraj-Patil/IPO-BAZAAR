@@ -7,7 +7,7 @@ export async function GET(req) {
   
   try {
     // Include the specified fields in the projection
-    const ipoData = await IpoSchema.find({}, '_id IPOName ipoDate priceRange ipoType allotmentLink listingGain lotSize allotmentLink listingGain symbol');
+    const ipoData = await IpoSchema.find({}, '_id IPOName ipoDate priceRange ipoType allotmentLink listingGain lotSize allotmentLink listingGain symbol IPOLink');
     // console.log('IPO Data:', ipoData);
     return new Response(JSON.stringify(ipoData), { status: 200 });
   } catch (error) {

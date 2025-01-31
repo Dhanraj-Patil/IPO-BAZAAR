@@ -1,12 +1,14 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import Loader from "../../app/loading"; // Importing Loader component
 
 // Register the necessary components of Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function Graph({ data }) {
-  if (!data || !data.labels) return <p>Loading...</p>;
+  // If no data or data.labels is not available, show the loader
+  if (!data || !data.labels) return <Loader />;
 
   const { labels, Revenue, ProfitAfterTax, TotalAssets } = data;
 
