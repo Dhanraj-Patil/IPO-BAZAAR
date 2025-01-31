@@ -55,6 +55,7 @@ export async function GET(request) {
         });
 
         // Return the scraped data
+        console.log(data)
         return NextResponse.json(data);
 
     } catch (error) {
