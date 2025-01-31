@@ -1,7 +1,7 @@
 "use client";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLink } from '@fortawesome/free-solid-svg-icons'
-import { useRouter } from 'next/navigation';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/navigation";
 import * as React from "react";
 import {
   flexRender,
@@ -11,12 +11,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  ChevronDown,
-  MoreHorizontal,
-  ArrowUp,
-  ArrowDown,
-} from "lucide-react";
+import { ChevronDown, MoreHorizontal, ArrowUp, ArrowDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -55,15 +50,23 @@ const splitDateRange = (dateStr) => {
     const getOrdinalSuffix = (day) => {
       if (day > 3 && day < 21) return "th";
       switch (day % 10) {
-        case 1: return "st";
-        case 2: return "nd";
-        case 3: return "rd";
-        default: return "th";
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
       }
     };
 
-    const formattedStartDay = `${parseInt(startDay)}${getOrdinalSuffix(parseInt(startDay))}`;
-    const formattedEndDay = `${parseInt(endDay)}${getOrdinalSuffix(parseInt(endDay))}`;
+    const formattedStartDay = `${parseInt(startDay)}${getOrdinalSuffix(
+      parseInt(startDay)
+    )}`;
+    const formattedEndDay = `${parseInt(endDay)}${getOrdinalSuffix(
+      parseInt(endDay)
+    )}`;
 
     return {
       openDate: `${formattedStartDay} ${month}`,
@@ -178,8 +181,12 @@ const getColumns = (router) => [
         rel="noopener noreferrer"
         className="text-center hover:text-[#03c02c] hover:underline"
       >
-        Allotment Link 
-         <FontAwesomeIcon icon={faLink} style={{ color: "#babdbf" }} className="ml-2" />
+        Allotment Link
+        <FontAwesomeIcon
+          icon={faLink}
+          style={{ color: "#babdbf" }}
+          className="ml-2"
+        />
       </a>
     ),
   },
@@ -226,36 +233,40 @@ const getColumns = (router) => [
     accessorKey: "price",
     header: "CMP",
     cell: ({ row }) => {
-      const price = row.original.price || 'N/A';
-      const priceRange = row.original.priceRange || '';
-      
+      const price = row.original.price || "N/A";
+      const priceRange = row.original.priceRange || "";
+
       const calculateGain = () => {
-        if (price === 'N/A' || !priceRange) return null;
-        
-        const cleanRange = priceRange.replace(/₹/g, '').split('–').map(p => p.trim());
-        
-        const upperBand = cleanRange.length > 1 
-          ? parseFloat(cleanRange[1]) 
-          : parseFloat(cleanRange[0]);
-        
+        if (price === "N/A" || !priceRange) return null;
+
+        const cleanRange = priceRange
+          .replace(/₹/g, "")
+          .split("–")
+          .map((p) => p.trim());
+
+        const upperBand =
+          cleanRange.length > 1
+            ? parseFloat(cleanRange[1])
+            : parseFloat(cleanRange[0]);
+
         const currentPrice = parseFloat(price);
-        
+
         if (isNaN(upperBand) || isNaN(currentPrice)) return null;
-        
+
         const gainAmount = currentPrice - upperBand;
         const gainPercentage = (gainAmount / upperBand) * 100;
-        
+
         return {
           amount: gainAmount.toFixed(2),
-          percentage: gainPercentage.toFixed(2)
+          percentage: gainPercentage.toFixed(2),
         };
       };
-      
+
       const gain = calculateGain();
-      
+
       return (
         <div className="text-center">
-          {price === 'N/A' ? (
+          {price === "N/A" ? (
             <span className="text-yellow-500">N/A</span>
           ) : (
             <div>
@@ -263,14 +274,15 @@ const getColumns = (router) => [
               {gain && (
                 <span
                   className={`ml-2 text-xs ${
-                    gain.amount > 0 
-                      ? 'text-green-600' 
-                      : gain.amount < 0 
-                        ? 'text-red-600' 
-                        : 'text-yellow-500'
+                    gain.amount > 0
+                      ? "text-green-600"
+                      : gain.amount < 0
+                      ? "text-red-600"
+                      : "text-yellow-500"
                   }`}
                 >
-                  ({gain.amount > 0 ? '+' : ''}{gain.percentage}%)
+                  ({gain.amount > 0 ? "+" : ""}
+                  {gain.percentage}%)
                 </span>
               )}
             </div>
@@ -285,9 +297,8 @@ const getColumns = (router) => [
     cell: ({ row }) => {
       const ipo = row.original;
       const handleViewDetails = () => {
-        const route = ipo.ipoType === 'IPO' 
-          ? `/IPO/${ipo._id}` 
-          : `/SME/${ipo._id}`;
+        const route =
+          ipo.ipoType === "IPO" ? `/IPO/${ipo._id}` : `/SME/${ipo._id}`;
         router.push(route);
       };
 
@@ -300,7 +311,10 @@ const getColumns = (router) => [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={handleViewDetails}>
+            <DropdownMenuItem
+              onClick={handleViewDetails}
+              className="cursor-pointer"
+            >
               View More Details
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -313,7 +327,7 @@ const getColumns = (router) => [
 export function DataTableDemo({ data }) {
   const router = useRouter();
   const [sorting, setSorting] = React.useState([
-    { id: 'ipoDate', desc: true } // Default sorting by closing date descending
+    { id: "ipoDate", desc: true }, // Default sorting by closing date descending
   ]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
@@ -402,23 +416,41 @@ export function DataTableDemo({ data }) {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={
-                        cell.column.id !== "IPOName" ? "text-center" : ""
-                      }
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+              table.getRowModel().rows.map((row) => {
+                const ipo = row.original;
+                const handleRowClick = (event) => {
+                  // Prevent navigation when clicking on the Allotment Link column
+                  if (event.target.closest("a")) return;
+
+                  const route =
+                    ipo.ipoType === "IPO"
+                      ? `/IPO/${ipo._id}`
+                      : `/SME/${ipo._id}`;
+                  router.push(route);
+                };
+
+                return (
+                  <TableRow
+                    key={row.id}
+                    className="cursor-pointer"
+                    onClick={handleRowClick}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        className={
+                          cell.column.id !== "IPOName" ? "text-center" : ""
+                        }
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                );
+              })
             ) : (
               <TableRow>
                 <TableCell

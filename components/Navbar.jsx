@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Use usePathname instead of useRouter
+import { usePathname } from "next/navigation";
 import { ModeToggle } from "./ModeToggle";
 
 function Navbar() {
@@ -29,23 +29,26 @@ function Navbar() {
             { href: "/SME", label: "SME IPO" },
             { href: "/SubscriptionStatus", label: "Subscription Status" },
             { href: "/GreyMarketPremium", label: "GMP" },
-          ].map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`relative text-md font-medium transition-all ${
-                pathname === href
-                  ? "scale-105 before:opacity-100"
-                  : "hover:scale-105 before:opacity-0"
-              } ${
-                pathname === href
-                  ? "text-[var(--Lcolor1)] dark:text-white"
-                  : "text-[var(--Lcolor1)] dark:text-white hover:dark:text-[var(--Dcolor1)]"
-              } before:content-[''] before:absolute before:bottom-[-0.4vw] before:left-0 before:w-full before:h-[2px] before:bg-[var(--Lcolor1)] dark:before:bg-[var(--Dcolor1)] before:transition-opacity before:duration-300`}
-            >
-              {label}
-            </Link>
-          ))}
+          ].map(({ href, label }) => {
+            const isActive =
+              href === "/"
+                ? pathname === "/" // Exact match for Home
+                : pathname.startsWith(href) && pathname !== "/"; // Exclude "/" from other matches
+
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`relative text-md font-medium transition-all ${
+                  isActive
+                    ? "scale-105 before:opacity-100 text-[var(--Lcolor1)] dark:text-white"
+                    : "hover:scale-105 before:opacity-0 text-[var(--Lcolor1)] dark:text-white hover:dark:text-[var(--Dcolor1)]"
+                } before:content-[''] before:absolute before:bottom-[-0.4vw] before:left-0 before:w-full before:h-[2px] before:bg-[var(--Lcolor1)] dark:before:bg-[var(--Dcolor1)] before:transition-opacity before:duration-300`}
+              >
+                {label}
+              </Link>
+            );
+          })}
           <ModeToggle />
         </div>
       </div>
