@@ -20,6 +20,10 @@ const IpoSchema = new mongoose.Schema({
     type: Object,
     required: true,
   },
+  SubscriptionStatus: {
+    type: Object,
+    required: true,
+  },
   strengths: { type: [String], required: true },
   risks: { type: [String], required: true },
   allotmentLink: { type: String, default: null },

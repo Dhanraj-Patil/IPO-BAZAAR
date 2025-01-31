@@ -1,26 +1,75 @@
-// app/api/update/route.js
-import connectToDb from '@/db';
-import IpoSchema from '@/IpoSchema';
+// app/api/updateIpoSubscription/route.js
 import { NextResponse } from 'next/server';
+import axios from 'axios';
+import connectDB from '@/db';
+import Ipo from '@/IpoSchema';
 
-export async function POST(req) {
-  try {
-    // Connect to the database
-    await connectToDb();
+export async function POST(request) {
+    // Increase timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 minutes timeout
 
-    // Add 'symbol' and 'visits' fields, setting 'symbol' to null and 'visits' to 0 for all documents
-    const result = await IpoSchema.updateMany(
-      {}, // Match all documents
-      { $set: { symbol: null, visits: 0 } } // Add fields and set default values
-    );
+    try {
+        // Connect to database
+        await connectDB();
 
-    return NextResponse.json({
-      message: "Successfully added 'symbol' field (null) and 'visits' field (0).",
-      modifiedCount: result.modifiedCount,
-    }, { status: 200 });
+        // Parse incoming request body
+        const ipoEntries = await request.json();
 
-  } catch (error) {
-    console.error("Error updating documents:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
-  }
+        // Store results for response
+        const updateResults = [];
+
+        // Process each IPO entry sequentially
+        for (const entry of ipoEntries) {
+            try {
+                // Fetch subscription details with timeout
+                const subscriptionResponse = await axios.get(
+                    `http://localhost:3000/api/scrapSubTable?url=${encodeURIComponent(entry.IPOLink)}`,
+                    { 
+                        signal: controller.signal,
+                        timeout: 30000 // 30 seconds per request
+                    }
+                );
+
+                // Update IPO document with subscription status
+                const updatedIpo = await Ipo.findByIdAndUpdate(
+                    entry._id,
+                    { 
+                        SubscriptionStatus: subscriptionResponse.data,
+                        subscriptionFetchedAt: new Date()
+                    },
+                    { new: true }
+                );
+
+                updateResults.push({
+                    ipoId: entry._id,
+                    ipoName: entry.IPOName,
+                    status: 'Success',
+                    details: subscriptionResponse.data
+                });
+            } catch (entryError) {
+                console.error(`Error processing IPO ${entry.IPOName}:`, entryError);
+                updateResults.push({
+                    ipoId: entry._id,
+                    ipoName: entry.IPOName,
+                    status: 'Failed',
+                    error: entryError.message
+                });
+            }
+        }
+
+        clearTimeout(timeoutId);
+        return NextResponse.json(updateResults);
+
+    } catch (error) {
+        clearTimeout(timeoutId);
+        console.error('Update IPO Subscription Error:', error);
+        return NextResponse.json(
+            { 
+                error: 'Failed to update IPO subscriptions',
+                details: error.message 
+            },
+            { status: 500 }
+        );
+    }
 }

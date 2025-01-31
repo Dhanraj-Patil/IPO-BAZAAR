@@ -6,7 +6,7 @@ export async function GET(req, res) {
   console.log('Connected to DB');
   
   try {
-    const ipos = await IpoSchema.find({});
+    const ipos = await IpoSchema.find({},"IPOName IPOLink");
     console.log('Fetched IPOs:', ipos);
     return new Response(JSON.stringify(ipos), { status: 200 });
   } catch (error) {

@@ -60,7 +60,7 @@ export default function IndividualIpoData({ ipoData }) {
   const approxValuePerLot = lotSizeNumber * priceRangeUpperBound;
 
   return (
-    <div className="w-[80%] mx-auto flex-col relative mb-10">
+    <div className="w-[80%] mx-auto flex-col relative mb-24">
       <div className="flex justify-self-center gap-8 m-4 p-3 ">
         {ipoData.logoBase64 && (
           <img
@@ -150,7 +150,13 @@ export default function IndividualIpoData({ ipoData }) {
               <FaArrowRight className="text-[#B0FA04] text-xl" />
             </span>
           </p>
-          <SubTable link={ipoData.IPOLink} />
+          <SubTable 
+  openDate={openDate} 
+  closeDate={closeDate} 
+  ipoLink={ipoData.IPOLink}
+  currentDate={new Date().toISOString()}
+  SubscriptionStatusdata={ipoData.SubscriptionStatus} 
+/>
         </div>
         <div className="w-[58%] ">
           <p className="flex items-center text-xl font-medium uppercase rounded-xl underline underline-offset-8 p-3">

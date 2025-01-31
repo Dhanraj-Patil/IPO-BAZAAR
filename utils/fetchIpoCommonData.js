@@ -17,7 +17,7 @@ export async function fetchIpoCommonData() {
 
     // Sending data to the second API using axios
     const response2 = await axios.post('http://localhost:3000/api/stock-prices', postData);
-    console.log(response2.data.stockPrices);
+    // console.log(response2.data.stockPrices);
 
     return response2.data.stockPrices;  // Returning the data from the first API
 
