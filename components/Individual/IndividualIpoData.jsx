@@ -8,6 +8,7 @@ import ApplyCatTable from "./ApplyCatTable";
 import Graph from "./Graph";
 import IssueTables from "./IssueTable";
 import IPOTimeline from "./Timeline";
+import ViewCounter from "./ping";
 export default function IndividualIpoData({ ipoData }) {
   // Extract Open Date and Close Date from ipoData.ipoDate
   const [openPart, closePart] = ipoData.ipoDate
@@ -59,7 +60,7 @@ export default function IndividualIpoData({ ipoData }) {
   const approxValuePerLot = lotSizeNumber * priceRangeUpperBound;
 
   return (
-    <div className="w-[80%] mx-auto flex-col  ">
+    <div className="w-[80%] mx-auto flex-col relative ">
       <div className="flex justify-self-center gap-8 m-4 p-3 ">
         {ipoData.logoBase64 && (
           <img
@@ -218,6 +219,9 @@ export default function IndividualIpoData({ ipoData }) {
             ))}
           </ul>
         </div>
+      </div>
+      <div className="fixed bottom-4 right-4 z-50">
+        <ViewCounter totalViews={ipoData.visits} />
       </div>
     </div>
   );

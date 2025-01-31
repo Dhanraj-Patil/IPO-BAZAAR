@@ -13,7 +13,12 @@ export async function GET(request) {
       return NextResponse.json({ error: 'IPO ID is required' }, { status: 400 });
     }
 
-    const ipoDetails = await IpoSchema.findById(id);
+    // Find the IPO and increment the visits count
+    const ipoDetails = await IpoSchema.findByIdAndUpdate(
+      id,
+      { $inc: { visits: 1 } }, // Increment visits by 1
+      { new: true } // Return the updated document
+    );
 
     if (!ipoDetails) {
       return NextResponse.json({ error: 'IPO not found' }, { status: 404 });

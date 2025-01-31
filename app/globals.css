@@ -96,7 +96,47 @@
 .counter:hover {
   transform: scale(1.1);
 }
+/* Ping Animation */
+.ping-dot-container {
+  @apply relative;
+}
 
+.ping-dot-wrapper {
+  @apply absolute -left-4 top-1;
+}
+
+.ping-dot {
+  @apply flex size-[11px];
+}
+
+.ping-dot-animation {
+  @apply absolute inline-flex h-full w-full animate-ping rounded-full bg-[#EE2B69] opacity-75;
+}
+
+.ping-dot-static {
+  @apply relative inline-flex size-[11px] rounded-full bg-[#EE2B69];
+}
+
+/* View Counter */
+.view-counter {
+  @apply relative inline-block;
+}
+
+.view-counter-ping {
+  @apply absolute -top-2 -right-2;
+}
+
+.view-counter-display {
+  @apply font-medium text-[16px] bg-[#fdcadc] px-4 py-2 rounded-lg capitalize;
+}
+
+.view-counter-text {
+  @apply text-black;
+}
+
+.view-counter-label {
+  @apply font-bold;
+}
 
 
 @layer base {
