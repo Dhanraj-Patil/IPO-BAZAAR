@@ -5,11 +5,11 @@ import { CombinedTable } from "@/components/HomePage/HomePageTable";
 import { useContext } from 'react';
 import { IpoCommonDataContext } from '@/app/Context/IpoCommonDataContext';
 import Image from "next/image";
-
-
+import { getTotalCurrentCount } from "@/components/HomePage/HomePageTable";
+import ViewCounter from "@/components/Individual/ping";
 export default function Home() {
   const ipoData = useContext(IpoCommonDataContext);
-  
+  const liveCount = getTotalCurrentCount(ipoData);
   return (
     <div className="w-[80%] mx-auto flex flex-col">
       
@@ -31,6 +31,10 @@ export default function Home() {
           />
         </div>
       </div>
+      <div className="fixed bottom-4 right-4 z-50">
+      <ViewCounter label={"LIVE IPOs :"} data={liveCount}/>
+      </div>
+   
     </div>
   );
 }

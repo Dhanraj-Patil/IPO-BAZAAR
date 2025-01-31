@@ -91,6 +91,23 @@ const splitDateRange = (dateStr) => {
     return { openDate: dateStr, closeDate: dateStr };
   }
 };
+const getCurrentCount = (data, type) => {
+  return data
+    ?.filter(item => item.ipoType === type)
+    ?.map(item => {
+      const { openDate, closeDate } = splitDateRange(item.ipoDate);
+      return getStatus(openDate, closeDate);
+    })
+    ?.filter(status => status === "Current")
+    ?.length || 0;
+};
+
+// Export function that returns combined count of current IPOs
+export const getTotalCurrentCount = (ipoData) => {
+  const ipoCount = getCurrentCount(ipoData, "IPO");
+  const smeCount = getCurrentCount(ipoData, "SME-IPO");
+  return ipoCount + smeCount;
+};
 
 const statusColors = {
   Closed: "bg-[#EF0107]",

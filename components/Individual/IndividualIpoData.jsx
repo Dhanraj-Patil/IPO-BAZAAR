@@ -221,7 +221,7 @@ export default function IndividualIpoData({ ipoData }) {
         </div>
       </div>
       <div className="fixed bottom-4 right-4 z-50">
-        <ViewCounter totalViews={ipoData.visits} />
+        <ViewCounter data={ipoData.visits} label={"Visits : "} />
       </div>
     </div>
   );

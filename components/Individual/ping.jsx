@@ -11,7 +11,7 @@ const Ping = () => (
   </div>
 );
 
-const ViewCounter = ({ totalViews }) => {
+const ViewCounter = ({ data,label }) => {
   return (
     <div className="view-counter">
       <div className="view-counter-ping">
@@ -19,7 +19,7 @@ const ViewCounter = ({ totalViews }) => {
       </div>
       <p className="view-counter-display">
         <span className="view-counter-text">
-          <span className="view-counter-label">Views:</span> {totalViews}
+          <span className="view-counter-label">{label}</span> {data}
         </span>
       </p>
     </div>
