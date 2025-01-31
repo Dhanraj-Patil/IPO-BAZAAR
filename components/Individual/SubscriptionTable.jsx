@@ -82,6 +82,7 @@ function SubTable({ link }) {
     }
     return value;
   };
+  console.log(data);
 
   return (
     <div className="rounded-2xl mt-3 hover:scale-105 transition-all ease-in-out duration-700  shadow-2xl">

@@ -32,7 +32,12 @@ const IpoSchema = new mongoose.Schema({
   IPOLink: { type: String, required: true },
   listingGain: { type: Number, default: null },
   visits: { type: Number, default: 0 }, // New visits field added here
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  ipoSchedule: {
+    type: Object,
+    required: false,  // Explicitly stating it's optional
+  }
+  
 });
 
 export default mongoose.models.Ipo || mongoose.model('Ipo', IpoSchema);
