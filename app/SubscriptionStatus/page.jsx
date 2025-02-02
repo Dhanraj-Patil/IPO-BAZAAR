@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useContext, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   flexRender,
   getCoreRowModel,
@@ -162,7 +163,7 @@ const getColumns = () => [
       if (!dateA) return 1;
       if (!dateB) return -1;
 
-      return dateB.getTime() - dateA.getTime(); // Reversed back to descending order
+      return dateB.getTime() - dateA.getTime();
     },
   },
   {
@@ -240,6 +241,7 @@ const getSubscriptionData = async (ipo) => {
   return ipo.SubscriptionStatus || null;
 };
 export default function Page() {
+  const router = useRouter();
   const ipoData = useContext(IpoCommonDataContext);
   const [enhancedIpoData, setEnhancedIpoData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -354,92 +356,102 @@ export default function Page() {
       </TableRow>
     ));
   };
+  const handleRowClick = (row) => {
+    const ipoType = row.original.ipoType;
+    const ipoId = row.original._id;
+    const route = `/${ipoType === 'IPO' ? 'IPO' : 'SME'}/${ipoId}`;
+    router.push(route);
+  };
 
   const renderTableContent = (table) => (
     <>
-      <div className="rounded-md">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
+    <div className="rounded-md">
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <TableHead
+                  key={header.id}
+                  className={
+                    header.column.id !== "IPOName" ? "text-center" : ""
+                  }
+                  onClick={header.column.getToggleSortingHandler()}
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                  {header.column.getIsSorted() &&
+                    (header.column.getIsSorted() === "desc" ? " ↓" : " ↑")}
+                </TableHead>
+              ))}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {isLoading ? (
+            renderSkeletonRows(columns.length)
+          ) : table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow 
+                key={row.id}
+                onClick={() => handleRowClick(row)}
+                className="cursor-pointer hover:bg-muted/50"
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    key={cell.id}
                     className={
-                      header.column.id !== "IPOName" ? "text-center" : ""
+                      cell.column.id !== "IPOName" ? "text-center" : ""
                     }
-                    onClick={header.column.getToggleSortingHandler()}
                   >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                    {header.column.getIsSorted() &&
-                      (header.column.getIsSorted() === "desc" ? " ↓" : " ↑")}
-                  </TableHead>
+                    {flexRender(
+                      cell.column.columnDef.cell,
+                      cell.getContext()
+                    )}
+                  </TableCell>
                 ))}
               </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {isLoading ? (
-              renderSkeletonRows(columns.length)
-            ) : table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={
-                        cell.column.id !== "IPOName" ? "text-center" : ""
-                      }
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      {!isLoading && (
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <div className="space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              Next
-            </Button>
-          </div>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell
+                colSpan={columns.length}
+                className="h-24 text-center"
+              >
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
+    {!isLoading && (
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
         </div>
-      )}
-    </>
+      </div>
+    )}
+  </>
   );
 
   return (
