@@ -30,8 +30,7 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
-import { IpoCommonDataContext } from '@/app/Context/IpoCommonDataContext';
-
+import { IpoCommonDataContext } from "@/app/Context/IpoCommonDataContext";
 
 // Enhanced date parsing function
 const parseFullDate = (dateStr) => {
@@ -164,7 +163,7 @@ const getColumns = () => [
       if (!dateB) return -1;
 
       return dateB.getTime() - dateA.getTime(); // Reversed back to descending order
-    }
+    },
   },
   {
     accessorKey: "ipoDate",
@@ -184,7 +183,9 @@ const getColumns = () => [
     accessorKey: "institutionalSubscription",
     header: "Institutional",
     cell: ({ row }) => (
-      <div className="text-center">{row.getValue("institutionalSubscription")}x</div>
+      <div className="text-center">
+        {row.getValue("institutionalSubscription")}x
+      </div>
     ),
   },
   {
@@ -209,8 +210,36 @@ const getColumns = () => [
     ),
   },
 ];
+const getSubscriptionData = async (ipo) => {
+  const { openDate, closeDate } = splitDateRange(ipo.ipoDate);
+  const openDateObj = parseDate(openDate);
+  const closeDateObj = parseDate(closeDate);
 
-export default function page() {
+  if (!openDateObj || !closeDateObj) return null;
+
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+
+  // Check if current date is within IPO period
+  if (currentDate >= openDateObj && currentDate <= closeDateObj) {
+    try {
+      const encodedUrl = encodeURIComponent(ipo.IPOLink);
+      // Include the IPO ID in the API call
+      const response = await fetch(
+        `/api/scrapSubTable?url=${encodedUrl}&id=${ipo._id}`
+      );
+      return await response.json();
+    } catch (error) {
+      console.error(`Error fetching live data for ${ipo.IPOName}:`, error);
+      // Fall back to stored subscription data if live fetch fails
+      return ipo.SubscriptionStatus || null;
+    }
+  }
+
+  // Return existing subscription data if outside IPO period
+  return ipo.SubscriptionStatus || null;
+};
+export default function Page() {
   const ipoData = useContext(IpoCommonDataContext);
   const [enhancedIpoData, setEnhancedIpoData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -221,34 +250,48 @@ export default function page() {
       try {
         const updatedIpoData = await Promise.all(
           ipoData.map(async (ipo) => {
-            try {
-              const encodedUrl = encodeURIComponent(ipo.IPOLink);
-              const response = await fetch(`/api/scrapSubTable?url=${encodedUrl}`);
-              const subscriptionData = await response.json();
+            const response = await getSubscriptionData(ipo);
 
-              // [previous subscription data extraction logic remains the same]
-              const institutional = subscriptionData.find(item => item.Category === 'Institutional');
-              const hni = subscriptionData.find(item => item.Category === 'HNI (₹2L+)');
-              const retail = subscriptionData.find(item => item.Category === 'Retail (upto ₹2L)');
-              const total = subscriptionData.find(item => item.Category === 'Total');
+            // Handle the new response format that includes both message and data
+            const subscriptionData = response?.data || response;
 
+            if (!subscriptionData) {
               return {
                 ...ipo,
-                institutionalSubscription: institutional ? institutional['Subscription (X times)'] : 'N/A',
-                hniSubscription: hni ? hni['Subscription (X times)'] : 'N/A',
-                retailSubscription: retail ? retail['Subscription (X times)'] : 'N/A',
-                totalSubscription: total ? total['Subscription (X times)'] : 'N/A'
-              };
-            } catch (error) {
-              console.error(`Error fetching data for ${ipo.IPOName}:`, error);
-              return {
-                ...ipo,
-                institutionalSubscription: 'N/A',
-                hniSubscription: 'N/A',
-                retailSubscription: 'N/A',
-                totalSubscription: 'N/A'
+                institutionalSubscription: "N/A",
+                hniSubscription: "N/A",
+                retailSubscription: "N/A",
+                totalSubscription: "N/A",
               };
             }
+
+            // Find subscription data for each category
+            const institutional = subscriptionData.find(
+              (item) => item.Category === "Institutional"
+            );
+            const hni = subscriptionData.find(
+              (item) => item.Category === "HNI (₹2L+)"
+            );
+            const retail = subscriptionData.find(
+              (item) => item.Category === "Retail (upto ₹2L)"
+            );
+            const total = subscriptionData.find(
+              (item) => item.Category === "Total"
+            );
+
+            return {
+              ...ipo,
+              institutionalSubscription: institutional
+                ? institutional["Subscription (X times)"]
+                : "N/A",
+              hniSubscription: hni ? hni["Subscription (X times)"] : "N/A",
+              retailSubscription: retail
+                ? retail["Subscription (X times)"]
+                : "N/A",
+              totalSubscription: total
+                ? total["Subscription (X times)"]
+                : "N/A",
+            };
           })
         );
 
@@ -283,15 +326,17 @@ export default function page() {
       getFilteredRowModel: getFilteredRowModel(),
       onColumnVisibilityChange: setColumnVisibility,
       state: {
-        sorting: [{ id: 'IPOName', desc: false }],
+        sorting: [{ id: "IPOName", desc: false }],
         columnFilters,
         columnVisibility,
       },
     });
   };
 
-  const ipoTableData = enhancedIpoData?.filter(item => item.ipoType === "IPO") || [];
-  const smeIpoTableData = enhancedIpoData?.filter(item => item.ipoType === "SME-IPO") || [];
+  const ipoTableData =
+    enhancedIpoData?.filter((item) => item.ipoType === "IPO") || [];
+  const smeIpoTableData =
+    enhancedIpoData?.filter((item) => item.ipoType === "SME-IPO") || [];
 
   const ipoTable = createTable(ipoTableData);
   const smeIpoTable = createTable(smeIpoTableData);
@@ -299,7 +344,10 @@ export default function page() {
     return Array.from({ length: 5 }).map((_, rowIndex) => (
       <TableRow key={`skeleton-row-${rowIndex}`}>
         {Array.from({ length: columnCount }).map((_, cellIndex) => (
-          <TableCell key={`skeleton-cell-${rowIndex}-${cellIndex}`} className="text-center">
+          <TableCell
+            key={`skeleton-cell-${rowIndex}-${cellIndex}`}
+            className="text-center"
+          >
             <Skeleton className="h-4 w-full" />
           </TableCell>
         ))}
@@ -453,7 +501,7 @@ export default function page() {
                     .getColumn("IPOName")
                     ?.setFilterValue(event.target.value)
                 }
-                className="max-w-sm"
+                className="max-w-sm bg-[#111822]"
               />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

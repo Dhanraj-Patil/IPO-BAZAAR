@@ -1,17 +1,25 @@
-// File: app/api/scrapSubTable/route.js
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import prisma from '@/lib/prisma';
 
 export async function GET(request) {
     try {
-        // Get URL from the search params
+        // Get URL and ID from the search params
         const { searchParams } = new URL(request.url);
         const url = searchParams.get('url');
+        const ipoId = searchParams.get('id');
 
         if (!url) {
             return NextResponse.json(
                 { error: 'URL parameter is required' },
+                { status: 400 }
+            );
+        }
+
+        if (!ipoId) {
+            return NextResponse.json(
+                { error: 'ID parameter is required' },
                 { status: 400 }
             );
         }
@@ -54,9 +62,40 @@ export async function GET(request) {
             data.push(rowData);
         });
 
-        // Return the scraped data
-        console.log(data)
-        return NextResponse.json(data);
+        // Update the database with the scraped data
+        try {
+            // Use upsert to create or update the record
+            await prisma.ipoSubscriptionData.upsert({
+                where: {
+                    ipoId: parseInt(ipoId)
+                },
+                update: {
+                    subscriptionData: data,
+                    lastUpdated: new Date(),
+                },
+                create: {
+                    ipoId: parseInt(ipoId),
+                    subscriptionData: data,
+                    lastUpdated: new Date(),
+                }
+            });
+
+            // Return both the scraped data and a success message
+            return NextResponse.json({
+                message: 'Data successfully updated in database',
+                data: data
+            });
+
+        } catch (dbError) {
+            console.error('Database error:', dbError);
+            return NextResponse.json(
+                { 
+                    error: 'Failed to update database',
+                    details: dbError.message 
+                },
+                { status: 500 }
+            );
+        }
 
     } catch (error) {
         console.error('Scraping error:', error);

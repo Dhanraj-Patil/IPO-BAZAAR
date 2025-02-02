@@ -17,6 +17,7 @@ function SubTable({
   ipoLink,
   currentDate,
   SubscriptionStatusdata,
+  id
 }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,8 +37,8 @@ function SubTable({
         // Check if current date is within IPO open and close dates
         if (current >= open && current <= close) {
           // Fetch fresh data from the link
-          const encodedUrl = encodeURIComponent(ipoLink);
-          const response = await fetch(`/api/scrapSubTable?url=${encodedUrl}`);
+          const encodedUrl = encodeURIComponent(ipoLink); 
+          const response = await fetch(`/api/scrapSubTable?url=${encodedUrl}&id=${id}`);
 
           if (!response.ok) {
             const errorData = await response.json();

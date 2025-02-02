@@ -156,6 +156,7 @@ export default function IndividualIpoData({ ipoData }) {
   ipoLink={ipoData.IPOLink}
   currentDate={new Date().toISOString()}
   SubscriptionStatusdata={ipoData.SubscriptionStatus} 
+  id={ipoData._id}
 />
         </div>
         <div className="w-[58%] ">
