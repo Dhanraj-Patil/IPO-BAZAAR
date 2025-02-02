@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { IpoCommonDataProvider } from "@/app/Context/IpoCommonDataProvider";
-import { fetchIpoCommonData } from "@/utils/fetchIpoCommonData";
+import { fetchBasicIpoData } from "@/utils/fetchIpoCommonData";
 
 const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800'],
@@ -18,27 +18,27 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const ipoData = await fetchIpoCommonData();
+  const initialData = await fetchBasicIpoData();
 
   return (
     <html lang="en" suppressHydrationWarning>
-    <head />
-    <body className={`${poppins.className} antialiased min-h-screen`}>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <IpoCommonDataProvider initialData={ipoData}>
-          <div className="min-h-screen flex flex-col ">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-        </IpoCommonDataProvider>
-      </ThemeProvider>
-    </body>
-  </html>
+      <head />
+      <body className={`${poppins.className} antialiased min-h-screen`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <IpoCommonDataProvider initialData={initialData}>
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </IpoCommonDataProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }

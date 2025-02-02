@@ -1,6 +1,8 @@
-// app/Context/IpoCommonDataContext.js
 "use client";
-
 import { createContext } from "react";
 
-export const IpoCommonDataContext = createContext([]);
+export const IpoCommonDataContext = createContext({
+  data: [],
+  loadPrices: async () => {},
+  hasPrices: false
+});

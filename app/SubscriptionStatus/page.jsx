@@ -242,7 +242,7 @@ const getSubscriptionData = async (ipo) => {
 };
 export default function Page() {
   const router = useRouter();
-  const ipoData = useContext(IpoCommonDataContext);
+  const { data: ipoData } = useContext(IpoCommonDataContext);
   const [enhancedIpoData, setEnhancedIpoData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
