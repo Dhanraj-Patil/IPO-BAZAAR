@@ -117,7 +117,7 @@ const statusColors = {
   Open: "bg-[#03c02c]",
 };
 
-const getColumns = (router) => [
+const getColumns = (router, isPriceLoading) => [
   {
     accessorKey: "IPOName",
     header: "IPO Name",
@@ -235,6 +235,15 @@ const getColumns = (router) => [
     cell: ({ row }) => {
       const price = row.original.price || "N/A";
       const priceRange = row.original.priceRange || "";
+      
+      // Now using isPriceLoading parameter directly
+      if (isPriceLoading) {
+        return (
+          <div className="flex justify-center items-center">
+            <div className="h-6 w-24 bg-gray-700 animate-pulse rounded"></div>
+          </div>
+        );
+      }
 
       const calculateGain = () => {
         if (price === "N/A" || !priceRange) return null;
@@ -324,15 +333,19 @@ const getColumns = (router) => [
   },
 ];
 
-export function DataTableDemo({ data }) {
+export function DataTableDemo({ data, isPriceLoading }) {
   const router = useRouter();
   const [sorting, setSorting] = React.useState([
-    { id: "ipoDate", desc: true }, // Default sorting by closing date descending
+    { id: "ipoDate", desc: true },
   ]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [columnVisibility, setColumnVisibility] = React.useState({});
 
-  const columns = React.useMemo(() => getColumns(router), [router]);
+  // Pass isPriceLoading to getColumns
+  const columns = React.useMemo(
+    () => getColumns(router, isPriceLoading), 
+    [router, isPriceLoading]
+  );
 
   const table = useReactTable({
     data,
@@ -350,7 +363,6 @@ export function DataTableDemo({ data }) {
       columnVisibility,
     },
   });
-
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
