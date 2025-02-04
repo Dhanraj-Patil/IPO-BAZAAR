@@ -145,7 +145,7 @@ const renderTable = (data, type, rowLimit) => {
       ?.slice(0, rowLimit) || [];
 
   return (
-    <Table>
+    <Table >
       <TableCaption>
         {type === "IPO" ? "IPO Companies" : "SME IPO Companies"}
       </TableCaption>

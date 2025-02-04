@@ -29,7 +29,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/ui/table2";
 
 const splitDateRange = (dateStr) => {
   if (!dateStr) return { openDate: "", closeDate: "" };
@@ -365,14 +365,14 @@ export function DataTableDemo({ data, isPriceLoading }) {
   });
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-4 sm:gap-0">
         <Input
           placeholder="Filter IPOs..."
           value={table.getColumn("IPOName")?.getFilterValue() ?? ""}
           onChange={(event) =>
             table.getColumn("IPOName")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm bg-[#111822]"
+          className="max-w-sm dark:bg-[#111822] border border-gray-300 dark:border-none shadow-lg"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -402,7 +402,7 @@ export function DataTableDemo({ data, isPriceLoading }) {
         </DropdownMenu>
       </div>
       <div className="rounded-md">
-        <Table>
+        <Table >
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -426,7 +426,7 @@ export function DataTableDemo({ data, isPriceLoading }) {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody  className="text-white">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => {
                 const ipo = row.original;
@@ -444,7 +444,7 @@ export function DataTableDemo({ data, isPriceLoading }) {
                 return (
                   <TableRow
                     key={row.id}
-                    className="cursor-pointer"
+                    className="cursor-pointer "
                     onClick={handleRowClick}
                   >
                     {row.getVisibleCells().map((cell) => (

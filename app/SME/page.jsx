@@ -19,7 +19,7 @@ export default function Page() {
   );
 
   return (
-    <div className='max-h-full max-w-[80%] mx-auto m-3 p-2'>
+    <div className='max-h-full w-[90%] md:w-[90%] lg:w-[90%] mx-auto m-3 p-2'>
       <DataTableDemo data={ipoFilteredData} isPriceLoading={isPriceLoading && !hasPrices} />
     </div>
   );
