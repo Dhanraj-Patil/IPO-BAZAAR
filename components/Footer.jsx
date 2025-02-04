@@ -12,7 +12,7 @@ const Footer = () => {
               href="/"
               className="dark:text-white text-[#00dd2c] font-semibold transition-all hover:scale-105 before:duration-300 text-2xl"
             >
-              <span className="text-custom-Lcolor1 dark:text-custom-Dcolor1 font-bold">
+              <span className="text-white dark:text-custom-Dcolor1 font-bold">
                 IPO
               </span>
               BAZAAR

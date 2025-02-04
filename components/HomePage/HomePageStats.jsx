@@ -31,7 +31,7 @@ function HomePageStats({ ipoData = [] }) {
   const { ref: ref4, inView: inView4 } = useInView({ triggerOnce: true });
 
   return (
-    <div className="darkModeNavyBg rounded-2xl py-2 flex justify-around shadow-2xl text-white hover:scale-105 transition-all ease-in-out duration-700 mt-6">
+    <div className="darkModeNavyBg rounded-2xl sm:py-2 py-3 flex justify-around shadow-2xl text-white hover:scale-105 transition-all ease-in-out duration-700 mt-6 flex-wrap gap-3 px-3 sm:px-0 sm:gap-0">
       <div className="flex flex-col justify-between items-center" ref={ref1}>
         <p className="text-3xl text-[#FEBE10]">
           {inView1 ? <CountUp end={totalIpos2025} duration={1.5} /> : "0"}

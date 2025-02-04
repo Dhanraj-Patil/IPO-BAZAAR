@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -19,7 +20,7 @@ const parseDate = (dateStr) => {
   if (!match) return null;
 
   const [, day, month] = match;
-  const currentYear = new Date().getFullYear(); // Use the current year
+  const currentYear = new Date().getFullYear();
   const monthIndex = new Date(`${month} 1, ${currentYear}`).getMonth();
 
   return new Date(currentYear, monthIndex, parseInt(day));
@@ -30,19 +31,19 @@ const getStatus = (openDateStr, closeDateStr) => {
   const closeDateObj = parseDate(closeDateStr);
 
   if (!openDateObj || !closeDateObj) {
-    return "Upcoming"; // Default to "Upcoming" if dates are invalid
+    return "Upcoming";
   }
 
   const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0); // Remove time for accurate comparison
+  currentDate.setHours(0, 0, 0, 0);
 
   if (currentDate >= openDateObj && currentDate <= closeDateObj) {
-    return "Current"; // If within the range
+    return "Current";
   }
   if (currentDate > closeDateObj) {
-    return "Closed"; // If past the close date
+    return "Closed";
   }
-  return "Upcoming"; // Otherwise, it's upcoming
+  return "Upcoming";
 };
 
 const splitDateRange = (dateStr) => {
@@ -91,18 +92,19 @@ const splitDateRange = (dateStr) => {
     return { openDate: dateStr, closeDate: dateStr };
   }
 };
+
 const getCurrentCount = (data, type) => {
-  return data
-    ?.filter(item => item.ipoType === type)
-    ?.map(item => {
-      const { openDate, closeDate } = splitDateRange(item.ipoDate);
-      return getStatus(openDate, closeDate);
-    })
-    ?.filter(status => status === "Current")
-    ?.length || 0;
+  return (
+    data
+      ?.filter((item) => item.ipoType === type)
+      ?.map((item) => {
+        const { openDate, closeDate } = splitDateRange(item.ipoDate);
+        return getStatus(openDate, closeDate);
+      })
+      ?.filter((status) => status === "Current")?.length || 0
+  );
 };
 
-// Export function that returns combined count of current IPOs
 export const getTotalCurrentCount = (ipoData) => {
   const ipoCount = getCurrentCount(ipoData, "IPO");
   const smeCount = getCurrentCount(ipoData, "SME-IPO");
@@ -126,7 +128,7 @@ const StatusCell = ({ openDate, closeDate }) => {
   );
 };
 
-const renderTable = (data, type) => {
+const renderTable = (data, type, rowLimit) => {
   const filteredData =
     data
       ?.filter((item) => item.ipoType === type)
@@ -140,7 +142,7 @@ const renderTable = (data, type) => {
         const closeDateB = parseDate(b.closeDate);
         return closeDateB - closeDateA;
       })
-      ?.slice(0, 7) || [];
+      ?.slice(0, rowLimit) || [];
 
   return (
     <Table>
@@ -149,17 +151,16 @@ const renderTable = (data, type) => {
       </TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[200px]">Company Name</TableHead>
+          <TableHead className="lg:w-[210px]">Company Name</TableHead>
           <TableHead>Open Date</TableHead>
           <TableHead>Close Date</TableHead>
-          <TableHead className="text-right w-[10px]">Status</TableHead>
+          <TableHead className="text-center">Status</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody className="text-white">
         {filteredData.map((company) => {
-          const {_id, symbol, IPOName, openDate, closeDate } = company;
-          const companyLink =
-            type === "IPO" ? `/IPO/${_id}` : `/SME/${_id}`;
+          const { _id, symbol, IPOName, openDate, closeDate } = company;
+          const companyLink = type === "IPO" ? `/IPO/${_id}` : `/SME/${_id}`;
 
           return (
             <TableRow
@@ -183,6 +184,25 @@ const renderTable = (data, type) => {
 };
 
 export function CombinedTable({ ipoData = [] }) {
+  const [rowLimit, setRowLimit] = useState(7);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setRowLimit(
+        window.innerWidth >= 768 && window.innerWidth < 1024 ? 14 : 7
+      );
+    };
+
+    // Initial check
+    handleResize();
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <Tabs
       defaultValue="IPO"
@@ -192,9 +212,11 @@ export function CombinedTable({ ipoData = [] }) {
         <TabsTrigger value="IPO">IPO</TabsTrigger>
         <TabsTrigger value="SME-IPO">SME IPO</TabsTrigger>
       </TabsList>
-      <TabsContent value="IPO">{renderTable(ipoData, "IPO")}</TabsContent>
+      <TabsContent value="IPO">
+        {renderTable(ipoData, "IPO", rowLimit)}
+      </TabsContent>
       <TabsContent value="SME-IPO">
-        {renderTable(ipoData, "SME-IPO")}
+        {renderTable(ipoData, "SME-IPO", rowLimit)}
       </TabsContent>
     </Tabs>
   );
