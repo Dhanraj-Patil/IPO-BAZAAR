@@ -125,13 +125,17 @@ const getColumns = (router, isPriceLoading) => [
       const { openDate, closeDate } = splitDateRange(row.original.ipoDate);
       const status = getStatus(openDate, closeDate);
       return (
-        <div>
-          {row.getValue("IPOName")}
-          <span
-            className={`ml-2 text-[0.65rem] p-1 rounded ${statusColors[status]}`}
-          >
-            {status}
-          </span>
+        <div className="md:max-w-[150px] lg:max-w-none">
+          <div className="flex md:flex-wrap lg:flex-nowrap items-center">
+            <div className="md:truncate lg:truncate-none">
+              {row.getValue("IPOName")}
+            </div>
+            <span
+              className={`inline-block md:mt-1 lg:mt-0 md:ml-0 lg:ml-2 text-[0.65rem] p-1 rounded ${statusColors[status]}`}
+            >
+              {status}
+            </span>
+          </div>
         </div>
       );
     },
@@ -236,7 +240,6 @@ const getColumns = (router, isPriceLoading) => [
       const price = row.original.price || "N/A";
       const priceRange = row.original.priceRange || "";
       
-      // Now using isPriceLoading parameter directly
       if (isPriceLoading) {
         return (
           <div className="flex justify-center items-center">
@@ -278,11 +281,11 @@ const getColumns = (router, isPriceLoading) => [
           {price === "N/A" ? (
             <span className="text-yellow-500">N/A</span>
           ) : (
-            <div>
+            <div className="md:flex md:flex-col lg:block">
               <span className="font-medium">₹{price}</span>
               {gain && (
                 <span
-                  className={`ml-2 text-xs ${
+                  className={`lg:ml-2 md:ml-0 text-xs ${
                     gain.amount > 0
                       ? "text-green-600"
                       : gain.amount < 0
@@ -372,11 +375,11 @@ export function DataTableDemo({ data, isPriceLoading }) {
           onChange={(event) =>
             table.getColumn("IPOName")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm dark:bg-[#111822] border border-gray-300 dark:border-none shadow-lg"
+          className="max-w-sm bg-[#111822] border-none shadow-lg text-white"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className="ml-auto bg-[#111822] text-white">
               Columns <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
@@ -476,9 +479,10 @@ export function DataTableDemo({ data, isPriceLoading }) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 py-4 text-white">
         <div className="space-x-2">
           <Button
+          className="bg-[#111822]"
             variant="outline"
             size="sm"
             onClick={() => table.previousPage()}
@@ -487,6 +491,7 @@ export function DataTableDemo({ data, isPriceLoading }) {
             Previous
           </Button>
           <Button
+          className="bg-[#111822]"
             variant="outline"
             size="sm"
             onClick={() => table.nextPage()}

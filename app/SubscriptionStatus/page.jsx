@@ -28,7 +28,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/ui/table2";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { IpoCommonDataContext } from "@/app/Context/IpoCommonDataContext";
@@ -359,111 +359,111 @@ export default function Page() {
   const handleRowClick = (row) => {
     const ipoType = row.original.ipoType;
     const ipoId = row.original._id;
-    const route = `/${ipoType === 'IPO' ? 'IPO' : 'SME'}/${ipoId}`;
+    const route = `/${ipoType === "IPO" ? "IPO" : "SME"}/${ipoId}`;
     router.push(route);
   };
 
   const renderTableContent = (table) => (
     <>
-    <div className="rounded-md">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead
-                  key={header.id}
-                  className={
-                    header.column.id !== "IPOName" ? "text-center" : ""
-                  }
-                  onClick={header.column.getToggleSortingHandler()}
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  {header.column.getIsSorted() &&
-                    (header.column.getIsSorted() === "desc" ? " ↓" : " ↑")}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {isLoading ? (
-            renderSkeletonRows(columns.length)
-          ) : table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow 
-                key={row.id}
-                onClick={() => handleRowClick(row)}
-                className="cursor-pointer hover:bg-muted/50"
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
+      <div className="rounded-md">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
                     className={
-                      cell.column.id !== "IPOName" ? "text-center" : ""
+                      header.column.id !== "IPOName" ? "text-center" : ""
                     }
+                    onClick={header.column.getToggleSortingHandler()}
                   >
-                    {flexRender(
-                      cell.column.columnDef.cell,
-                      cell.getContext()
-                    )}
-                  </TableCell>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    {header.column.getIsSorted() &&
+                      (header.column.getIsSorted() === "desc" ? " ↓" : " ↑")}
+                  </TableHead>
                 ))}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell
-                colSpan={columns.length}
-                className="h-24 text-center"
-              >
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>
-    {!isLoading && (
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
+            ))}
+          </TableHeader>
+          <TableBody className="text-white">
+            {isLoading ? (
+              renderSkeletonRows(columns.length)
+            ) : table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  onClick={() => handleRowClick(row)}
+                  className="cursor-pointer hover:bg-muted/50"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className={
+                        cell.column.id !== "IPOName" ? "text-center" : ""
+                      }
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
       </div>
-    )}
-  </>
+      {!isLoading && (
+        <div className="flex items-center justify-end space-x-2 py-4 text-white">
+          <div className="space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
+    </>
   );
 
   return (
-    <div className="max-w-[80%] mx-auto justify-center items-center m-9 ">
+    <div className="max-w-[90%] sm:max-w-[80%] mx-auto justify-center items-center m-9 ">
       <Tabs defaultValue="IPO" className="w-full">
-        <TabsList className="grid w-[30%] mx-auto  grid-cols-2">
+        <TabsList className="grid sm:w-[30%] w-[70%] mx-auto  grid-cols-2">
           <TabsTrigger value="IPO">IPO</TabsTrigger>
           <TabsTrigger value="SME-IPO">SME IPO</TabsTrigger>
         </TabsList>
         <TabsContent value="IPO">
           <div className="w-full">
-            <div className="flex items-center py-4">
+            <div className="flex items-center py-4 gap-4 sm:gap-0">
               <Input
                 placeholder="Filter IPOs..."
                 value={ipoTable.getColumn("IPOName")?.getFilterValue() ?? ""}
@@ -472,11 +472,12 @@ export default function Page() {
                     .getColumn("IPOName")
                     ?.setFilterValue(event.target.value)
                 }
-                className="max-w-sm bg-[#111822]"
+                className="max-w-sm bg-[#111822] border-none shadow-lg text-white"
               />
-              <DropdownMenu>
+
+              <DropdownMenu className="!text-white">
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="ml-auto">
+                  <Button variant="outline" className="ml-auto !text-white">
                     Columns <ChevronDown />
                   </Button>
                 </DropdownMenuTrigger>
@@ -513,11 +514,11 @@ export default function Page() {
                     .getColumn("IPOName")
                     ?.setFilterValue(event.target.value)
                 }
-                className="max-w-sm bg-[#111822]"
+                className="max-w-sm bg-[#111822] border-none shadow-lg text-white" // Remove the explicit background color
               />
-              <DropdownMenu>
+              <DropdownMenu className="!text-white">
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="ml-auto">
+                  <Button variant="outline" className="ml-auto !text-white">
                     Columns <ChevronDown />
                   </Button>
                 </DropdownMenuTrigger>
