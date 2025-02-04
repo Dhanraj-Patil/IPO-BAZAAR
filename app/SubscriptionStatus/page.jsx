@@ -505,7 +505,7 @@ export default function Page() {
         </TabsContent>
         <TabsContent value="SME-IPO">
           <div className="w-full">
-            <div className="flex items-center py-4">
+            <div className="flex items-center py-4 gap-4 sm:gap-0">
               <Input
                 placeholder="Filter SME IPOs..."
                 value={smeIpoTable.getColumn("IPOName")?.getFilterValue() ?? ""}

@@ -281,11 +281,11 @@ const getColumns = (router, isPriceLoading) => [
           {price === "N/A" ? (
             <span className="text-yellow-500">N/A</span>
           ) : (
-            <div className="md:flex md:flex-col lg:block">
+            <div className="flex flex-col"> 
               <span className="font-medium">₹{price}</span>
               {gain && (
                 <span
-                  className={`lg:ml-2 md:ml-0 text-xs ${
+                  className={`text-xs ${
                     gain.amount > 0
                       ? "text-green-600"
                       : gain.amount < 0
