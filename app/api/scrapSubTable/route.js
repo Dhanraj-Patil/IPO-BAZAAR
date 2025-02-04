@@ -63,39 +63,39 @@ export async function GET(request) {
         });
 
         // Update the database with the scraped data
-        try {
-            // Use upsert to create or update the record
-            await prisma.ipoSubscriptionData.upsert({
-                where: {
-                    ipoId: parseInt(ipoId)
-                },
-                update: {
-                    subscriptionData: data,
-                    lastUpdated: new Date(),
-                },
-                create: {
-                    ipoId: parseInt(ipoId),
-                    subscriptionData: data,
-                    lastUpdated: new Date(),
-                }
-            });
+        // try {
+        //     // Use upsert to create or update the record
+        //     await prisma.ipoSubscriptionData.upsert({
+        //         where: {
+        //             ipoId: parseInt(ipoId)
+        //         },
+        //         update: {
+        //             subscriptionData: data,
+        //             lastUpdated: new Date(),
+        //         },
+        //         create: {
+        //             ipoId: parseInt(ipoId),
+        //             subscriptionData: data,
+        //             lastUpdated: new Date(),
+        //         }
+        //     });
 
-            // Return both the scraped data and a success message
-            return NextResponse.json({
-                message: 'Data successfully updated in database',
-                data: data
-            });
+        //     // Return both the scraped data and a success message
+        //     return NextResponse.json({
+        //         message: 'Data successfully updated in database',
+        //         data: data
+        //     });
 
-        } catch (dbError) {
-            console.error('Database error:', dbError);
-            return NextResponse.json(
-                { 
-                    error: 'Failed to update database',
-                    details: dbError.message 
-                },
-                { status: 500 }
-            );
-        }
+        // } catch (dbError) {
+        //     console.error('Database error:', dbError);
+        //     return NextResponse.json(
+        //         { 
+        //             error: 'Failed to update database',
+        //             details: dbError.message 
+        //         },
+        //         { status: 500 }
+        //     );
+        // }
 
     } catch (error) {
         console.error('Scraping error:', error);
