@@ -22,9 +22,10 @@ export async function POST(request) {
         // Process each IPO entry sequentially
         for (const entry of ipoEntries) {
             try {
+                    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
                 // Fetch subscription details with timeout
                 const subscriptionResponse = await axios.get(
-                    `http://localhost:3000/api/scrapSubTable?url=${encodeURIComponent(entry.IPOLink)}`,
+                    `${apiUrl}/scrapSubTable?url=${encodeURIComponent(entry.IPOLink)}`,
                     { 
                         signal: controller.signal,
                         timeout: 30000 // 30 seconds per request

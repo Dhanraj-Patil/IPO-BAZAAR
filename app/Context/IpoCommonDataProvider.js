@@ -17,7 +17,8 @@ export function IpoCommonDataProvider({ children, initialData }) {
           const postData = {
             data: Array.isArray(data) ? data : [],
           };
-          const response = await axios.post('http://localhost:3000/api/stock-prices', postData);
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+          const response = await axios.post(`${apiUrl}/stock-prices`, postData);
           setData(response.data.stockPrices);
           setHasPrices(true);
         } catch (error) {
@@ -41,7 +42,8 @@ export function IpoCommonDataProvider({ children, initialData }) {
         const postData = {
           data: Array.isArray(data) ? data : [],
         };
-        const response = await axios.post('http://localhost:3000/api/stock-prices', postData);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const response = await axios.post(`${apiUrl}/stock-prices`, postData);
         setData(response.data.stockPrices);
         setHasPrices(true);
       } catch (error) {
